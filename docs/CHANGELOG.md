@@ -1,82 +1,75 @@
 # Changelog
 
 All notable changes to the Maqueen Lite Reference document.
-Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) conventions.
+
+---
+
+## [1.1.0] — 2026-04-25
+
+The wiki-examples catalog release.
+
+### Added
+
+#### § 11 — The 16 official examples (catalog)
+
+A new top-level section between Code recipes (§ 10) and Mechanic add-ons (§ 12). Catalogues every numbered example from the DFRobot ROB0148 wiki at `wiki.dfrobot.com/rob0148-en`. Each entry includes:
+
+* **Italic Cormorant ID** (01 through 16)
+* **Title** matching the wiki's title
+* **Paraphrased summary** in the reference doc's own technical voice
+* **API surface tags** — compact teal pills naming the relevant pins, namespaces, and method calls (e.g. `P16 IR`, `IR_Read`, `motorRun`)
+* **Two links** — direct to the official wiki page, and to the Guide Terrain implementation
+* The 16 entries cover: getting started, IR remote (×2), line-tracking (×2), motor control, RGB ambient, ultrasonic distance, LED flash, IR key codes, line-sensor read, ultrasonic obstacle avoidance, light-following, wireless GamePad, servo, product info
+
+A "Reading order — what to teach when" subsection at the end groups the 16 entries into four pedagogical phases (setup & smoke test → single-component reads → single-component drives → combined behaviours).
+
+A "Where to find the actual code" callout at the top of the section explicitly directs readers to either the wiki or to Guide Terrain for working implementations — keeping the reference doc focused on its companion role.
+
+#### CSS
+
+* New `.wiki-cat` and `.wiki-row` component styles
+* Italic Cormorant numbering, terracotta left-border accent, teal API tags
+* Responsive: collapses gracefully below 640 px viewport
+
+#### Screenshots (4 new)
+
+* `16-wiki-examples-intro.png` — heading, callout, first 4 example cards
+* `17-wiki-card-detail.png` — single card close-up showing layout (entry #06, Read ultrasonic distance)
+* `18-wiki-reading-order.png` — the 4-phase teaching sequence at the end
+* `19-toc-15-entries.png` — updated sticky sidebar with all 15 sections
+
+### Changed
+
+#### Section numbering
+
+The four sections after Code recipes shifted by one:
+
+* Mechanic add-ons: § 11 → **§ 12**
+* AI capabilities: § 12 → **§ 13**
+* Common pitfalls: § 13 → **§ 14**
+* Resources: § 14 → **§ 15**
+
+The sticky TOC sidebar reflects all 15 entries in order. All section anchors and cross-references (`#mechanic`, `#ai`, `#pitfalls`, `#resources`) remained unchanged — old deep-links continue to work.
+
+#### Document size
+
+134 KB → 151 KB (+ 17 KB for the new section's content + CSS).
 
 ---
 
 ## [1.0.0] — 2026-04-25
 
-The first packaged release. Drafted as a deliberate technical companion to the [Guide Terrain](https://abourdim.github.io/maqueen-activities/) activity guide.
+Initial packaged release. See `v1.0` package for the original changelog. Major content:
 
-### Added
-
-#### Document structure
-* 14 sections with sticky table-of-contents sidebar
-* Print CSS optimised for A4 classroom use
-* Copy buttons on every code block
-* Cream / ink / terracotta / teal aesthetic in the same family as Guide Terrain's Zellige theme
-
-#### Cross-references to Guide Terrain
-* Hero positions this doc as the "companion" — explicit text in kicker and lede
-* User-guides panel: dedicated row with 4 links (Live / Source / README / Changelog)
-* User-guides panel: "Also by author" row linking the two confirmed sibling repos
-* Section-end pointers at §9 (API → cheatsheet), §11 (Mechanic → Robotique/Capteurs), §13 (Pitfalls → FAQ panel)
-* Footer credits the parent repo and names the relationship
-* Result: 9 prose mentions, 9 live-demo links, 4 source links
-
-#### Hardware reference
-* Top-down chassis schematic with every pin labelled (P0–P16, I²C 0x10)
-* Pinout reference table — every pin, every API call, on one page
-* Universal hardware reference for Mechanic kits: M3 mounting holes diagram + servo wiring inset
-* Pre-flight checklist (6 numbered steps applying to every kit assembly)
-* Tools-you-need list
-
-#### Connection close-ups
-* Servo cable plugging into S1/S2 — chassis with both sockets, three-wire connector, right-way / wrong-way panels with mini connector mock-ups
-* SR04 ultrasonic plugging into the chassis socket — vertical layout with sensor on top, big down arrow, socket on bottom, dashed alignment lines tying each pin to its hole, three numbered steps
-* Both diagrams designed for kids: large labels, plain language, "you cannot break it" reassurance
-
-#### Mechanic kit coverage
-* Per-kit profile for all four kits (Forklift / Loader / Beetle / Push)
-* Each kit: side or top-view diagram, BoM, step-by-step assembly (9-11 steps), calibration angles, code recipe, activity ideas
-* "Official assembly tutorials" panel linking all 5 PDFs (Master + 4 per-kit + Lite installation)
-
-#### API reference
-* Every namespace function from `pxt-maqueen` with verified spelling
-* Code samples match the parent README's conventions exactly:
-  * `maqueen.motorRun(maqueen.Motors.All, maqueen.Dir.CW, 150)`
-  * `maqueen.servoRun(maqueen.Servos.S1, 90)`
-  * `maqueen.readPatrol(maqueen.Patrol.PatrolLeft)`
-  * `maqueen.Ultrasonic()`
-  * `maqueen.writeLED(maqueen.LED.LEDLeft, maqueen.LEDswitch.turnOn)`
-  * `maqueen.IR_Read(IR_Pin.P16)`
-
-#### Verified bills of materials
-
-* **Forklift (ROB0156-F)** — 11 part types, official shipping list
-* **Loader (ROB0156-L)** — 7 part types, official shipping list (cross-checked Amazon / Element14)
-* **Beetle (ROB0156-B)** — 10 part types, official shipping list (cross-checked Core Electronics)
-* **Push (ROB0156-P)** — 7 part types including the often-overlooked 4-pin ultrasonic extension wire
-
-All BoMs verified against DFRobot product pages, Element14, Farnell, and Core Electronics distributor listings.
-
-#### Screenshot library
-* 18 PNGs at 2× device-scale factor
-* Captured via headless Chromium at 1280×1000 viewport
-* Ordered to match document flow
-* Indexed in `docs/SCREENSHOTS.md`
-
-### Verified
-
-* All 132 external links confirmed live as of 2026-04-25
-* All 5 official PDFs (Master Mechanic + 4 kit tutorials + Lite installation) confirmed reachable
-* All 4 kit wiki URLs confirmed reachable
-* `pxt-maqueen` API spelling cross-checked against the source repo
-
-### Design decisions
-
-* **Vertical SR04 layout** — replaced the original side-by-side diagram after kid-friendliness review revealed pin labels colliding ("VCCTrigEchoGND" rendering) and unclear spatial relationship. The vertical layout mirrors the physical action (sensor pushes down onto socket) and uses dashed alignment lines for unambiguous pin-to-hole mapping.
-* **No CDN-loaded fonts** — system fonts only (Cormorant Garamond, Spectral, JetBrains Mono fall back gracefully). Document works offline, prints predictably.
-* **No external dependencies** — no JavaScript libraries, no CSS frameworks. Single self-contained file under 135 KB.
-* **MIT license** — matches parent repo for frictionless integration.
+* 14 sections with sticky TOC, print CSS, copy buttons, cream / ink / terracotta / teal aesthetic
+* Hero, user-guides quick-access panel, family comparison table
+* Top-down chassis schematic with every pin labelled
+* Universal mounting reference + servo wiring diagram
+* Kid-friendly servo and SR04 connection close-ups (the SR04 redesigned from side-by-side to vertical layout for teaching clarity)
+* Per-kit profiles for all four Mechanic kits with verified BoMs
+* AI capabilities, common pitfalls, full resources list
+* 132 verified external links
+* 8 embedded SVG diagrams
+* 5 official PDFs linked
+* 18 screenshots at 2× DPI
+* MIT licensed

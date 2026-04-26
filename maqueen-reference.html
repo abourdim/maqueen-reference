@@ -1,0 +1,2296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maqueen Lite — Complete Reference</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Spectral:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #f3ece0;
+  --paper-deep: #ebe1cf;
+  --ink: #1c2230;
+  --ink-soft: #3a4250;
+  --ink-mute: #6b7280;
+  --terra: #b8523a;
+  --terra-deep: #8e3d2a;
+  --ochre: #b88a2c;
+  --teal: #2f6b6e;
+  --rule: #d6c9b1;
+  --rule-soft: #e3d9c4;
+  --shadow: 0 1px 0 rgba(28,34,48,0.04), 0 8px 24px -12px rgba(28,34,48,0.18);
+  --shadow-deep: 0 2px 0 rgba(28,34,48,0.06), 0 24px 48px -16px rgba(28,34,48,0.25);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Spectral', Georgia, serif;
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--ink);
+  background: var(--paper);
+  background-image:
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(184,82,58,0.04), transparent 70%),
+    radial-gradient(ellipse 60% 80% at 100% 100%, rgba(47,107,110,0.03), transparent 70%);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Decorative top border — Zellige-inspired */
+.zellige-strip {
+  height: 14px;
+  background:
+    repeating-linear-gradient(90deg,
+      var(--terra) 0 14px,
+      var(--ochre) 14px 28px,
+      var(--teal) 28px 42px,
+      var(--ink) 42px 56px);
+  position: relative;
+}
+.zellige-strip::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(45deg,
+    transparent 0 6px,
+    rgba(243,236,224,0.4) 6px 7px);
+}
+
+.layout {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 48px 32px 96px;
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 56px;
+}
+
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; gap: 24px; padding: 24px 20px 64px; }
+  aside.toc { position: static !important; }
+}
+
+/* TOC */
+aside.toc {
+  position: sticky;
+  top: 32px;
+  align-self: start;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  max-height: calc(100vh - 64px);
+  overflow-y: auto;
+}
+aside.toc .toc-label {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--terra);
+  font-weight: 600;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--rule);
+}
+aside.toc ol { list-style: none; counter-reset: toc; }
+aside.toc li { counter-increment: toc; margin: 6px 0; }
+aside.toc a {
+  color: var(--ink-soft);
+  text-decoration: none;
+  display: block;
+  padding: 4px 0 4px 28px;
+  position: relative;
+  transition: color 0.15s, transform 0.15s;
+  border-radius: 2px;
+}
+aside.toc a::before {
+  content: counter(toc, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  color: var(--terra);
+  font-weight: 600;
+  opacity: 0.7;
+}
+aside.toc a:hover { color: var(--terra); transform: translateX(2px); }
+
+/* Main column */
+main { min-width: 0; }
+
+/* Hero */
+.hero { margin-bottom: 64px; }
+.hero .kicker {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--terra);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.hero .kicker::before, .hero .kicker::after {
+  content: ''; flex: 0 0 24px; height: 1px; background: var(--terra); opacity: 0.4;
+}
+.hero .kicker::before { display: none; }
+.hero h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 500;
+  font-size: clamp(40px, 6vw, 64px);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin-bottom: 20px;
+}
+.hero h1 em {
+  font-style: italic;
+  color: var(--terra);
+  font-weight: 400;
+}
+.hero .lede {
+  font-size: 19px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  max-width: 62ch;
+  margin-bottom: 24px;
+}
+.hero .meta {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--ink-mute);
+  padding-top: 20px;
+  border-top: 1px solid var(--rule);
+}
+.hero .meta span strong {
+  display: block;
+  color: var(--terra);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+  font-weight: 600;
+}
+
+/* Sections */
+section { margin: 80px 0; scroll-margin-top: 24px; }
+section .number {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--terra);
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+section h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 500;
+  font-size: clamp(28px, 4vw, 40px);
+  line-height: 1.15;
+  color: var(--ink);
+  margin-bottom: 28px;
+  letter-spacing: -0.005em;
+}
+section h2::after {
+  content: '';
+  display: block;
+  width: 48px;
+  height: 2px;
+  background: var(--terra);
+  margin-top: 16px;
+}
+section h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 600;
+  font-size: 22px;
+  color: var(--ink);
+  margin: 32px 0 12px;
+}
+section h4 {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--terra);
+  font-weight: 600;
+  margin: 24px 0 10px;
+}
+section p { margin-bottom: 16px; max-width: 70ch; }
+section p + p { margin-top: 4px; }
+
+/* Inline elements */
+a { color: var(--terra); text-decoration: none; border-bottom: 1px solid rgba(184,82,58,0.3); transition: all 0.15s; }
+a:hover { color: var(--terra-deep); border-bottom-color: var(--terra-deep); }
+strong { color: var(--ink); font-weight: 600; }
+em { color: var(--ink-soft); }
+code:not(pre code) {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85em;
+  background: var(--paper-deep);
+  padding: 2px 7px;
+  border-radius: 3px;
+  border: 1px solid var(--rule-soft);
+  color: var(--terra-deep);
+}
+
+/* Tables */
+.table-wrap { overflow-x: auto; margin: 20px 0 28px; box-shadow: var(--shadow); border-radius: 4px; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--paper-deep);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+}
+thead { background: var(--ink); color: var(--paper); }
+thead th {
+  text-align: left;
+  padding: 12px 16px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+tbody td {
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--rule-soft);
+  vertical-align: top;
+}
+tbody tr:last-child td { border-bottom: none; }
+tbody tr:hover { background: rgba(184,82,58,0.04); }
+tbody td:first-child { color: var(--terra-deep); font-weight: 500; }
+tbody td a {
+  color: var(--terra-deep);
+  text-decoration: none;
+  border-bottom: 1px dotted rgba(184,82,58,0.45);
+  font-weight: 500;
+  transition: all 0.15s;
+}
+tbody td a:hover {
+  color: var(--terra);
+  border-bottom-color: var(--terra);
+  border-bottom-style: solid;
+}
+tbody td a.external::after {
+  content: ' ↗';
+  font-size: 0.85em;
+  opacity: 0.55;
+}
+tbody td code, tbody td:nth-child(2) {
+  color: var(--ink);
+  background: transparent;
+  border: none;
+  padding: 0;
+  font-size: 13px;
+}
+tbody td:nth-child(2) a {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+}
+
+/* Code blocks */
+.code-block {
+  position: relative;
+  margin: 16px 0 24px;
+  background: var(--ink);
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+.code-block .code-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 16px;
+  background: rgba(0,0,0,0.25);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ochre);
+}
+.code-block .copy-btn {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.15);
+  color: var(--paper);
+  padding: 3px 10px;
+  border-radius: 3px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.code-block .copy-btn:hover { background: var(--terra); border-color: var(--terra); }
+.code-block .copy-btn.copied { background: var(--teal); border-color: var(--teal); }
+.code-block pre {
+  padding: 16px 18px;
+  overflow-x: auto;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  line-height: 1.55;
+  color: #e8dfc8;
+}
+.code-block .tok-c { color: #8a8475; font-style: italic; } /* comment */
+.code-block .tok-k { color: #d99066; } /* keyword */
+.code-block .tok-s { color: #a8c79f; } /* string */
+.code-block .tok-n { color: #c9a76a; } /* number */
+.code-block .tok-fn { color: #e8c374; } /* function */
+
+/* Cards */
+.card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin: 16px 0 28px; }
+.card {
+  background: var(--paper-deep);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 18px 20px;
+  position: relative;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.card:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+.card .card-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--terra);
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+.card h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  color: var(--ink);
+  margin: 0 0 8px;
+  font-weight: 600;
+}
+.card p { font-size: 14px; line-height: 1.55; color: var(--ink-soft); margin: 0; }
+
+/* Pull-quote / callout */
+.callout {
+  border-left: 3px solid var(--terra);
+  padding: 14px 20px;
+  margin: 24px 0;
+  background: rgba(184,82,58,0.06);
+  border-radius: 0 4px 4px 0;
+}
+.callout .callout-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--terra-deep);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.callout p { margin: 0; font-size: 15px; max-width: none; }
+
+/* User-guide quick-access panel */
+.guide-panel {
+  background: var(--paper-deep);
+  border: 1px solid var(--rule);
+  border-left: 4px solid var(--terra);
+  border-radius: 4px;
+  padding: 22px 26px;
+  margin: 32px 0;
+  box-shadow: var(--shadow);
+}
+.guide-panel .guide-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--terra);
+  font-weight: 600;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.guide-panel .guide-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--rule);
+}
+.guide-panel .guide-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px 24px;
+}
+.guide-panel .guide-row {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.guide-panel .guide-row .guide-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.2;
+}
+.guide-panel .guide-row .guide-links {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--ink-mute);
+}
+.guide-panel .guide-row .guide-links a {
+  border-bottom: 1px dotted rgba(184,82,58,0.4);
+}
+.guide-panel .guide-row .guide-links a + a { margin-left: 6px; }
+.guide-panel .guide-row .guide-links span { margin: 0 4px; opacity: 0.4; }
+
+/* Wiki-examples catalog (§ 11) */
+.wiki-cat {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  margin: 28px 0;
+}
+.wiki-row {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 18px;
+  background: var(--paper-deep);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--terra);
+  border-radius: 4px;
+  padding: 16px 18px;
+  align-items: start;
+}
+.wiki-row .wiki-num {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-size: 32px;
+  color: var(--terra);
+  line-height: 1;
+  padding-top: 4px;
+}
+.wiki-row .wiki-body { min-width: 0; }
+.wiki-row .wiki-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 20px;
+  color: var(--ink);
+  line-height: 1.25;
+  margin-bottom: 4px;
+}
+.wiki-row p {
+  font-size: 14.5px;
+  line-height: 1.55;
+  margin: 6px 0 10px;
+  color: var(--ink);
+  max-width: none;
+}
+.wiki-row .wiki-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 8px 0;
+}
+.wiki-row .wiki-tags span {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  background: rgba(47, 107, 110, 0.10);
+  color: var(--teal);
+  border: 1px solid rgba(47, 107, 110, 0.22);
+  padding: 2px 8px;
+  border-radius: 10px;
+  letter-spacing: 0.02em;
+}
+.wiki-row .wiki-links {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  margin-top: 6px;
+}
+.wiki-row .wiki-links a {
+  border-bottom: 1px dotted rgba(184, 82, 58, 0.4);
+}
+
+@media (max-width: 640px) {
+  .wiki-row { grid-template-columns: 48px 1fr; gap: 12px; padding: 14px; }
+  .wiki-row .wiki-num { font-size: 26px; }
+  .wiki-row .wiki-title { font-size: 17px; }
+}
+
+/* Schematic SVG container */
+.schematic {
+  background: var(--paper-deep);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 24px;
+  margin: 24px 0;
+  box-shadow: var(--shadow);
+  position: relative;
+}
+.schematic .schematic-caption {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin-top: 12px;
+  text-align: center;
+}
+.schematic svg { width: 100%; height: auto; display: block; }
+
+/* Steps */
+ol.steps { list-style: none; counter-reset: step; margin: 16px 0 24px; }
+ol.steps li {
+  counter-increment: step;
+  position: relative;
+  padding-left: 48px;
+  margin-bottom: 14px;
+  max-width: 70ch;
+}
+ol.steps li::before {
+  content: counter(step, decimal-leading-zero);
+  position: absolute;
+  left: 0; top: 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--paper);
+  background: var(--ink);
+  padding: 3px 8px;
+  border-radius: 3px;
+  letter-spacing: 0.05em;
+}
+
+/* Bullet lists */
+ul.refined { list-style: none; margin: 12px 0 24px; }
+ul.refined li {
+  position: relative;
+  padding-left: 22px;
+  margin-bottom: 8px;
+  max-width: 70ch;
+}
+ul.refined li::before {
+  content: '◆';
+  position: absolute;
+  left: 0; top: 0;
+  color: var(--terra);
+  font-size: 10px;
+  top: 6px;
+}
+
+/* Resource grid */
+.res-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 12px;
+  margin: 16px 0 28px;
+}
+.res-grid .res-section {
+  background: var(--paper-deep);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 16px 18px;
+}
+.res-grid .res-section h4 { margin-top: 0; margin-bottom: 10px; }
+.res-grid ul { list-style: none; }
+.res-grid ul li { margin-bottom: 6px; font-size: 14px; line-height: 1.5; }
+.res-grid ul li a { display: inline; }
+.res-grid ul li .res-desc {
+  display: block;
+  color: var(--ink-mute);
+  font-size: 12px;
+  font-style: italic;
+  margin-top: 1px;
+}
+
+/* Footer */
+footer {
+  margin-top: 80px;
+  padding-top: 32px;
+  border-top: 1px solid var(--rule);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--ink-mute);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+footer .credit em { color: var(--terra); font-style: normal; }
+
+/* Scrollbar polish */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--paper-deep); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 5px; }
+::-webkit-scrollbar-thumb:hover { background: var(--terra); }
+
+/* Print */
+@media print {
+  aside.toc { display: none; }
+  .layout { grid-template-columns: 1fr; padding: 0; }
+  .zellige-strip { display: none; }
+  body { font-size: 11pt; }
+  .code-block { background: #fff; color: #000; border: 1px solid #999; }
+  .code-block pre { color: #000; }
+  a { color: #000; border-bottom: none; }
+  .copy-btn { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="zellige-strip"></div>
+
+<div class="layout">
+
+<!-- TOC -->
+<aside class="toc">
+  <div class="toc-label">Contents</div>
+  <ol>
+    <li><a href="#what">What is it</a></li>
+    <li><a href="#family">The family</a></li>
+    <li><a href="#why">Why Maqueen</a></li>
+    <li><a href="#hardware">Onboard hardware</a></li>
+    <li><a href="#pinout">Pinout</a></li>
+    <li><a href="#schematic">Schematic</a></li>
+    <li><a href="#setup">Getting started</a></li>
+    <li><a href="#environments">Programming environments</a></li>
+    <li><a href="#api">The maqueen API</a></li>
+    <li><a href="#recipes">Code recipes</a></li>
+    <li><a href="#wiki-examples">The 16 official examples</a></li>
+    <li><a href="#mechanic">Mechanic add-ons</a></li>
+    <li><a href="#ai">AI capabilities</a></li>
+    <li><a href="#pitfalls">Common pitfalls</a></li>
+    <li><a href="#resources">Resources</a></li>
+  </ol>
+</aside>
+
+<main>
+<!-- HERO -->
+<header class="hero">
+  <div class="kicker">DFRobot ROB0148 · Reference · companion to <a href="https://abourdim.github.io/maqueen-activities/" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-decoration-style:dotted;">Guide Terrain</a></div>
+  <h1>Maqueen Lite · <em>Reference</em></h1>
+  <p class="lede">The hardware book — pinout, schematic, every API call, every Mechanic kit, every common pitfall. Designed as the technical complement to <a href="https://abourdim.github.io/maqueen-activities/" target="_blank" rel="noopener">Guide Terrain</a> (85 activities · FR / EN / AR): same robot, same author, same MakeCode conventions, complementary scope. This doc explains <em>what the parts are</em>. <a href="https://abourdim.github.io/maqueen-activities/" target="_blank" rel="noopener">Guide Terrain</a> shows <em>what to do with them</em>.</p>
+  <div class="meta">
+    <span><strong>Hardware</strong>micro:bit-based · age 8+</span>
+    <span><strong>Power</strong>3 × AAA, 4.5 V nominal</span>
+    <span><strong>Languages</strong>Blocks · JS · Python · Mind+</span>
+    <span><strong>Price</strong>≈ €30 / $35 USD</span>
+  </div>
+</header>
+
+<!-- User guide quick-access -->
+<div class="guide-panel">
+  <div class="guide-label">User guides — every model, one click away</div>
+  <div class="guide-grid">
+    <div class="guide-row">
+      <span class="guide-name">Maqueen Lite</span>
+      <span class="guide-links">
+        <a href="https://wiki.dfrobot.com/rob0148-en/" target="_blank" rel="noopener">Wiki</a><span>·</span><a href="https://www.dfrobot.com/product-1783.html" target="_blank" rel="noopener">Buy</a><span>·</span><a href="https://github.com/May-DFRobot/DFRobot/blob/master/maqueen%20lite%20Installation%20instructions-V1.1-20220309.pdf" target="_blank" rel="noopener">Install PDF</a><span>·</span><a href="https://github.com/DFRobot/pxt-maqueen" target="_blank" rel="noopener">Extension</a>
+      </span>
+    </div>
+    <div class="guide-row">
+      <span class="guide-name">Maqueen Plus V2</span>
+      <span class="guide-links">
+        <a href="https://wiki.dfrobot.com/mbt0021-en/" target="_blank" rel="noopener">Wiki</a><span>·</span><a href="https://www.dfrobot.com/product-2026.html" target="_blank" rel="noopener">Buy</a><span>·</span><a href="https://github.com/DFRobot/pxt-DFRobot_MaqueenPlus_v20" target="_blank" rel="noopener">Extension</a>
+      </span>
+    </div>
+    <div class="guide-row">
+      <span class="guide-name">Maqueen Plus V3</span>
+      <span class="guide-links">
+        <a href="https://wiki.dfrobot.com/SKU_MBT0050_Maqueen_Plus_V3" target="_blank" rel="noopener">Wiki</a><span>·</span><a href="https://www.dfrobot.com/product-2935.html" target="_blank" rel="noopener">Buy</a>
+      </span>
+    </div>
+    <div class="guide-row">
+      <span class="guide-name">Mechanic kits</span>
+      <span class="guide-links">
+        <a href="https://github.com/DFRobot/Maqueen_Mechanic_instructions/blob/master/Maqueen%20Mechanic%20instructions.pdf" target="_blank" rel="noopener">Master PDF</a><span>·</span><a href="https://learn.dfrobot.com/makelog-308436.html" target="_blank" rel="noopener">Walkthrough</a>
+      </span>
+    </div>
+    <div class="guide-row">
+      <span class="guide-name">MakeCode editor</span>
+      <span class="guide-links">
+        <a href="https://makecode.microbit.org" target="_blank" rel="noopener">Open</a><span>·</span><a href="https://python.microbit.org" target="_blank" rel="noopener">Python</a><span>·</span><a href="https://createai.microbit.org" target="_blank" rel="noopener">CreateAI</a>
+      </span>
+    </div>
+    <div class="guide-row">
+      <span class="guide-name">Guide Terrain (sibling)</span>
+      <span class="guide-links">
+        <a href="https://abourdim.github.io/maqueen-activities/" target="_blank" rel="noopener">Live (FR · EN · AR)</a><span>·</span><a href="https://github.com/abourdim/maqueen-activities" target="_blank" rel="noopener">Source</a><span>·</span><a href="https://github.com/abourdim/maqueen-activities/blob/main/README.md" target="_blank" rel="noopener">README</a><span>·</span><a href="https://github.com/abourdim/maqueen-activities/blob/main/CHANGELOG.md" target="_blank" rel="noopener">Changelog</a>
+      </span>
+    </div>
+    <div class="guide-row">
+      <span class="guide-name">Also by author</span>
+      <span class="guide-links">
+        <a href="https://github.com/abourdim/bit-54-activities" target="_blank" rel="noopener">bit-54-activities</a><span>·</span><a href="https://github.com/abourdim/tools" target="_blank" rel="noopener">Workshop-DIY Toolkit</a>
+      </span>
+    </div>
+  </div>
+</div>
+
+<!-- 01 -->
+<section id="what">
+  <div class="number">§ 01</div>
+  <h2>What is it, exactly?</h2>
+  <p>The <strong>Maqueen Lite</strong> (<a href="https://www.dfrobot.com" target="_blank" rel="noopener">DFRobot</a> SKU <a href="https://www.dfrobot.com/product-1783.html" target="_blank" rel="noopener">ROB0148</a>) is a palm-sized programmable robot built around the <a href="https://microbit.org" target="_blank" rel="noopener">BBC micro:bit</a>. It's a chassis with two motors, a handful of sensors, and a slot for the micro:bit to plug into. The micro:bit is the brain; the chassis is the body. You write code in a browser, drop it onto the micro:bit, slide it into the robot, and the robot does what you said.</p>
+  <p>It is <em>not</em> a remote-controlled toy and <em>not</em> a kit you build from scratch. It arrives assembled, ready in five minutes. What changes between sessions is the code — the same hardware can be a line-follower, a Morse-code blinker, a maze solver, an autonomous sumo bot, or a node in a swarm.</p>
+  <p>The Lite is the entry point. There is a heavier sibling (<a href="https://wiki.dfrobot.com/mbt0021-en/" target="_blank" rel="noopener">Maqueen Plus V2</a>) and a family of clip-on mechanical kits (forklift, gripper, bulldozer). All share the same programming model.</p>
+</section>
+
+<!-- 02 -->
+<section id="family">
+  <div class="number">§ 02</div>
+  <h2>The Maqueen family</h2>
+  <p><a href="https://www.dfrobot.com" target="_blank" rel="noopener">DFRobot</a> has produced four main Maqueen models since 2018. They share the micro:bit slot and most of the API, but differ in motors, batteries, and onboard sensors. Pick the one that matches the budget and the activities you want to run.</p>
+  <p><strong>Every model name in the table below links to its official user guide; every SKU links to the product page.</strong></p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Model</th><th>SKU</th><th>Motors</th><th>Battery</th><th>Distinctive</th><th>Price band</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong><a href="https://wiki.dfrobot.com/rob0148-en/" target="_blank" rel="noopener" class="external">Maqueen Lite</a></strong></td>
+          <td><a href="https://www.dfrobot.com/product-1783.html" target="_blank" rel="noopener" class="external">ROB0148-EN</a></td>
+          <td>TT geared, all-metal</td>
+          <td>3 × AAA</td>
+          <td>Current entry-level. <strong>This guide.</strong></td>
+          <td>≈ €30</td>
+        </tr>
+        <tr>
+          <td><a href="https://wiki.dfrobot.com/topic-319/" target="_blank" rel="noopener" class="external">Maqueen Lite V5</a></td>
+          <td><a href="https://www.dfrobot.com/search-MBT0046.html" target="_blank" rel="noopener" class="external">MBT0046</a></td>
+          <td>TT geared</td>
+          <td>3 × AAA</td>
+          <td>Newer Lite chassis revision</td>
+          <td>≈ €35</td>
+        </tr>
+        <tr>
+          <td><a href="https://wiki.dfrobot.com/mbt0021-en/" target="_blank" rel="noopener" class="external">Maqueen Plus V2</a></td>
+          <td><a href="https://www.dfrobot.com/product-2026.html" target="_blank" rel="noopener" class="external">MBT0021-EN</a></td>
+          <td>N20 metal-gear</td>
+          <td>4 × AA or 1 × 18650</td>
+          <td>5 line sensors, OLED, more I/O</td>
+          <td>≈ €50</td>
+        </tr>
+        <tr>
+          <td><a href="https://wiki.dfrobot.com/SKU_MBT0050_Maqueen_Plus_V3" target="_blank" rel="noopener" class="external">Maqueen Plus V3</a></td>
+          <td><a href="https://www.dfrobot.com/product-2935.html" target="_blank" rel="noopener" class="external">MBT0050</a></td>
+          <td>Encoded N20 + PID</td>
+          <td>AA or 1 × 18650</td>
+          <td>Matrix laser ranging, intersection recognition</td>
+          <td>≈ €70</td>
+        </tr>
+        <tr>
+          <td><a href="https://www.dfrobot.com/product-2030.html" target="_blank" rel="noopener" class="external">Maqueen Plus V2 + HuskyLens</a></td>
+          <td><a href="https://www.dfrobot.com/product-2030.html" target="_blank" rel="noopener" class="external">MBT0021-EN-2</a></td>
+          <td>N20 metal-gear</td>
+          <td>1 × 18650</td>
+          <td><a href="https://www.dfrobot.com/product-1922.html" target="_blank" rel="noopener" class="external">HuskyLens</a> AI camera bundled</td>
+          <td>≈ €100</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Older <em>Maqueen Plus V1</em> (discontinued) is replaced by V2 above. The original <em>Maqueen Classic</em> is also discontinued — its programming model lives on in the Lite, which is functionally a refinement.</p>
+  <p>The <strong>Lite</strong> is the right choice for primary and lower-secondary classrooms (CM1–6ème / Year 5–8). It does <em>everything</em> a beginner needs: lines, distance, sound, light, RGB, two servos, IR remote. The <strong>Plus V2</strong> earns its premium when you need more line sensors (5 vs 2) and <a href="https://www.dfrobot.com/product-1922.html" target="_blank" rel="noopener">HuskyLens</a> compatibility. The <strong>Plus V3</strong> is the competition tool — encoders and PID give you real odometry, and the matrix laser sensor opens up obstacle-position-aware pathfinding that ultrasonic can't do.</p>
+  <h3>The Mechanic add-on family</h3>
+  <p>Four screw-on mechanical kits turn the Lite (or Plus) into a different machine. They all use one of the servo ports (S1 or S2) and the standard expansion screw holes:</p>
+  <div class="card-grid">
+    <a href="https://wiki.dfrobot.com/rob0156-f/" target="_blank" rel="noopener" style="text-decoration:none;border:none;color:inherit;">
+    <div class="card">
+      <div class="card-tag">ROB0156-F ↗</div>
+      <h3>Forklift</h3>
+      <p>Fork plate raised and lowered by a metal-gear servo arm. Lift, transport, deposit objects.</p>
+    </div>
+    </a>
+    <a href="https://wiki.dfrobot.com/rob0156-l/" target="_blank" rel="noopener" style="text-decoration:none;border:none;color:inherit;">
+    <div class="card">
+      <div class="card-tag">ROB0156-L ↗</div>
+      <h3>Loader</h3>
+      <p>Front scoop on a single pivoting arm. Loading and unloading, "engineering rescue" scenarios.</p>
+    </div>
+    </a>
+    <a href="https://wiki.dfrobot.com/ROB0156-B/" target="_blank" rel="noopener" style="text-decoration:none;border:none;color:inherit;">
+    <div class="card">
+      <div class="card-tag">ROB0156-B ↗</div>
+      <h3>Beetle</h3>
+      <p>Two-jaw mechanical gripper driven by one servo. Pick-and-place, sorting by colour or shape.</p>
+    </div>
+    </a>
+    <a href="https://wiki.dfrobot.com/rob0156-p/" target="_blank" rel="noopener" style="text-decoration:none;border:none;color:inherit;">
+    <div class="card">
+      <div class="card-tag">ROB0156-P ↗</div>
+      <h3>Push (bulldozer)</h3>
+      <p>Front blade plus a <em>rotating</em> ultrasonic mount that sweeps 10–170°. Maze solving, football, scanning.</p>
+    </div>
+    </a>
+  </div>
+  <p>A bundle SKU <a href="https://wiki.dfrobot.com/_SKU_ROB0163-EN_Maqueen_Mechanic_Mechanical_Parts" target="_blank" rel="noopener">ROB0163</a> contains all four. Documentation for these add-ons is, in a word, <em>image-only</em> — see the <a href="#resources">Resources</a> section for the official PDFs.</p>
+</section>
+
+<!-- 03 -->
+<section id="why">
+  <div class="number">§ 03</div>
+  <h2>Why Maqueen?</h2>
+  <p>Educational robots are crowded territory. LEGO Mindstorms, Sphero, Ozobot, mBot, Edison, VEX IQ — the shelf is full. The Maqueen earns its place on three specific axes:</p>
+
+  <h3>Cost-to-capability ratio</h3>
+  <p>At ≈ €30 the Lite is roughly <em>one twelfth</em> the price of a Mindstorms set, yet exposes line sensing, distance sensing, IR remote, RGB lighting, sound (v2), two servo outputs, and an I²C bus for expansion. A class set of 15 robots fits in the budget of one or two LEGO kits.</p>
+
+  <h3>Ecosystem openness</h3>
+  <p>The brain is a <a href="https://microbit.org" target="_blank" rel="noopener">BBC micro:bit</a> — an open-hardware educational board with first-party browser tools, no install, no account, free forever. Code is written in <a href="https://makecode.microbit.org" target="_blank" rel="noopener">MakeCode</a> (Blocks → JavaScript transition built in) or <a href="https://python.microbit.org" target="_blank" rel="noopener">MicroPython</a>. The Maqueen extension <a href="https://github.com/DFRobot/pxt-maqueen" target="_blank" rel="noopener">pxt-maqueen</a> is open-source on GitHub. Nothing is locked, nothing expires, nothing requires a subscription.</p>
+
+  <h3>Pedagogical depth</h3>
+  <p>The robot grows with the student. A 9-year-old can blink an LED in three blocks; a 14-year-old can implement a Q-learning agent that learns to navigate a maze; a sixteen-year-old can train a sound-classification model in <a href="https://createai.microbit.org" target="_blank" rel="noopener">CreateAI</a> and deploy it onboard. Same robot, same software, six years of progression.</p>
+
+  <div class="callout">
+    <div class="callout-label">Where Maqueen falls short</div>
+    <p>Be honest with students: the Lite has no encoders, so dead-reckoning beyond ~30 cm is unreliable. Battery sag from alkalines noticeably affects motor speed mid-session. The micro:bit v1 has no microphone — for any sound-based or AI activity, v2 is mandatory.</p>
+  </div>
+</section>
+
+<!-- 04 -->
+<section id="hardware">
+  <div class="number">§ 04</div>
+  <h2>What's onboard</h2>
+  <p>A Maqueen Lite straight out of the box, before any expansion, gives you eleven addressable things. Memorise this list — every activity in the canon is some combination of these.</p>
+  <ul class="refined">
+    <li><strong>Two TT-style geared DC motors</strong> with all-metal pinion gears. Driven through an onboard motor controller chip on I²C address <code>0x10</code> (so the API hides the wiring entirely — you say <em>"motor left, forward, speed 150"</em> and it happens).</li>
+    <li><strong>Two front-facing white LEDs</strong> (P8 left, P12 right). Headlights, indicators, eyes — pick a metaphor.</li>
+    <li><strong>Four WS2812B RGB NeoPixels</strong> arranged around the perimeter, all daisy-chained on P15. Full-colour underglow, animations, status indicators.</li>
+    <li><strong>Two downward-facing IR line sensors</strong> at the front (P13 left, P14 right). Returns 0 over white surfaces, 1 over black — the heart of every line-following activity.</li>
+    <li><strong>One IR receiver</strong> on P16, compatible with cheap NEC-protocol remotes. Each remote button maps to a numeric code.</li>
+    <li><strong>One passive buzzer</strong> on P0 (the standard micro:bit pin for <code>music</code>). Plays tones, tunes, rhythm patterns.</li>
+    <li><strong>One ultrasonic socket</strong> at the front for an HC-SR04 (sold separately or as part of a bundle). Reads distance in centimetres via <code>maqueen.Ultrasonic()</code>.</li>
+    <li><strong>Two servo outputs</strong>, S1 on micro:bit pin P1, S2 on P2. 0–180° standard hobby servos. Used by all four Mechanic kits.</li>
+    <li><strong>One exposed I²C bus</strong> (SDA on P20, SCL on P19) for expansion: HuskyLens, OLED screens, additional sensors.</li>
+    <li><strong>One battery holder</strong> for 3 × AAA cells, with a slide power switch. Nominal 4.5 V, working range roughly 3.6–5 V.</li>
+    <li><strong>One micro:bit edge connector</strong> at the front. Either v1 or v2 fits; v2 unlocks the onboard microphone, speaker, and touch logo.</li>
+  </ul>
+</section>
+
+<!-- 05 -->
+<section id="pinout">
+  <div class="number">§ 05</div>
+  <h2>Pinout — every pin, every call</h2>
+  <p>This is the table you print and tape next to the workbench. Every onboard component, the micro:bit pin it lives on, and the exact MakeCode/JavaScript call that drives it. The <code>maqueen</code> namespace abstracts most of these so you rarely write the pin number directly — but when something doesn't work, this table is where you start debugging.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Component</th><th>Pin</th><th>Direction</th><th>API call (JavaScript)</th></tr></thead>
+      <tbody>
+        <tr><td>Buzzer</td><td>P0</td><td>OUT (PWM)</td><td>music.playTone(Note.C5, 500)</td></tr>
+        <tr><td>Servo S1</td><td>P1</td><td>OUT (PWM)</td><td>maqueen.servoRun(maqueen.Servos.S1, 90)</td></tr>
+        <tr><td>Servo S2</td><td>P2</td><td>OUT (PWM)</td><td>maqueen.servoRun(maqueen.Servos.S2, 90)</td></tr>
+        <tr><td>(free for expansion)</td><td>P3–P7</td><td>—</td><td>via edge connector / breadboard</td></tr>
+        <tr><td>Front LED — left</td><td>P8</td><td>OUT (digital)</td><td>maqueen.writeLED(maqueen.LED.LEDLeft, maqueen.LEDswitch.turnOn)</td></tr>
+        <tr><td>(free for expansion)</td><td>P9–P11</td><td>—</td><td>via edge connector / breadboard</td></tr>
+        <tr><td>Front LED — right</td><td>P12</td><td>OUT (digital)</td><td>maqueen.writeLED(maqueen.LED.LEDRight, ...)</td></tr>
+        <tr><td>Line sensor — left</td><td>P13</td><td>IN (digital)</td><td>maqueen.readPatrol(maqueen.Patrol.PatrolLeft)</td></tr>
+        <tr><td>Line sensor — right</td><td>P14</td><td>IN (digital)</td><td>maqueen.readPatrol(maqueen.Patrol.PatrolRight)</td></tr>
+        <tr><td>RGB strip (×4)</td><td>P15</td><td>OUT (WS2812)</td><td>strip = neopixel.create(DigitalPin.P15, 4, NeoPixelMode.RGB)</td></tr>
+        <tr><td>IR receiver</td><td>P16</td><td>IN (digital)</td><td>maqueen.IR_Read(IR_Pin.P16)</td></tr>
+        <tr><td>I²C — SCL</td><td>P19</td><td>I²C</td><td>(used by motor driver, HuskyLens, etc.)</td></tr>
+        <tr><td>I²C — SDA</td><td>P20</td><td>I²C</td><td>(used by motor driver, HuskyLens, etc.)</td></tr>
+        <tr><td>Motors (L+R)</td><td>I²C 0x10</td><td>I²C OUT</td><td>maqueen.motorRun(maqueen.Motors.All, maqueen.Dir.CW, 150)</td></tr>
+        <tr><td>Ultrasonic (HC-SR04)</td><td>internal</td><td>—</td><td>let cm = maqueen.Ultrasonic()</td></tr>
+        <tr><td>Microphone (v2 only)</td><td>onboard</td><td>IN</td><td>input.soundLevel()</td></tr>
+        <tr><td>Speaker (v2 only)</td><td>onboard</td><td>OUT</td><td>music.setBuiltInSpeakerEnabled(true)</td></tr>
+        <tr><td>Touch logo (v2 only)</td><td>onboard</td><td>IN</td><td>input.logoIsPressed()</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout">
+    <div class="callout-label">Free pins matter</div>
+    <p>P3, P4, P5, P6, P7, P9, P10, P11 are not used by any onboard Maqueen Lite component. They are exposed on the micro:bit edge and on the expansion screw terminals — that's where you wire your own sensor or actuator.</p>
+  </div>
+</section>
+
+<!-- 06 -->
+<section id="schematic">
+  <div class="number">§ 06</div>
+  <h2>Schematic (top-down)</h2>
+  <p>An exploded top-down view, with each pin labelled where it lives on the chassis. The chassis itself is symmetric, so when in doubt about left vs right, orient yourself by the front-facing white LEDs.</p>
+  <div class="schematic">
+    <svg viewBox="0 0 720 520" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Top-down schematic of Maqueen Lite">
+      <defs>
+        <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+          <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#d6c9b1" stroke-width="0.4" opacity="0.5"/>
+        </pattern>
+      </defs>
+      <rect width="720" height="520" fill="url(#grid)"/>
+
+      <!-- compass -->
+      <g transform="translate(40,50)" font-family="JetBrains Mono, monospace" font-size="10" fill="#6b7280">
+        <line x1="0" y1="0" x2="0" y2="-22" stroke="#1c2230" stroke-width="1"/>
+        <polygon points="0,-26 -3,-20 3,-20" fill="#b8523a"/>
+        <text x="6" y="-18">FRONT</text>
+      </g>
+
+      <!-- chassis outline -->
+      <g stroke="#1c2230" stroke-width="1.6" fill="#ebe1cf">
+        <path d="M 230 90 Q 360 70 490 90 L 510 130 L 530 200 L 530 320 L 510 380 L 490 420 L 230 420 L 210 380 L 190 320 L 190 200 L 210 130 Z"/>
+      </g>
+
+      <!-- wheels -->
+      <rect x="170" y="200" width="32" height="120" rx="4" fill="#1c2230"/>
+      <rect x="518" y="200" width="32" height="120" rx="4" fill="#1c2230"/>
+      <text x="186" y="265" text-anchor="middle" fill="#f3ece0" font-family="JetBrains Mono" font-size="9" transform="rotate(-90 186 265)">LEFT MOTOR</text>
+      <text x="534" y="265" text-anchor="middle" fill="#f3ece0" font-family="JetBrains Mono" font-size="9" transform="rotate(90 534 265)">RIGHT MOTOR</text>
+
+      <!-- front LEDs -->
+      <circle cx="280" cy="105" r="11" fill="#fff8e1" stroke="#1c2230" stroke-width="1.4"/>
+      <circle cx="440" cy="105" r="11" fill="#fff8e1" stroke="#1c2230" stroke-width="1.4"/>
+      <text x="280" y="109" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#8e3d2a">LED L</text>
+      <text x="440" y="109" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#8e3d2a">LED R</text>
+
+      <!-- ultrasonic socket -->
+      <rect x="320" y="80" width="80" height="34" rx="4" fill="none" stroke="#1c2230" stroke-width="1.2" stroke-dasharray="4 3"/>
+      <text x="360" y="101" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#6b7280">SR04 socket</text>
+
+      <!-- micro:bit slot -->
+      <rect x="270" y="160" width="180" height="65" rx="4" fill="#fff8e1" stroke="#1c2230" stroke-width="1.4"/>
+      <text x="360" y="187" text-anchor="middle" font-family="Cormorant Garamond" font-size="14" fill="#1c2230" font-style="italic">micro:bit edge slot</text>
+      <text x="360" y="206" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#6b7280">v1 or v2 — gold pads facing forward</text>
+
+      <!-- 4 RGB NeoPixels -->
+      <circle cx="240" cy="160" r="7" fill="#b8523a" stroke="#1c2230" stroke-width="1"/>
+      <circle cx="480" cy="160" r="7" fill="#2f6b6e" stroke="#1c2230" stroke-width="1"/>
+      <circle cx="240" cy="350" r="7" fill="#b88a2c" stroke="#1c2230" stroke-width="1"/>
+      <circle cx="480" cy="350" r="7" fill="#8e3d2a" stroke="#1c2230" stroke-width="1"/>
+
+      <!-- line sensors (under) -->
+      <circle cx="320" cy="125" r="6" fill="none" stroke="#8e3d2a" stroke-width="1" stroke-dasharray="3 2"/>
+      <circle cx="400" cy="125" r="6" fill="none" stroke="#8e3d2a" stroke-width="1" stroke-dasharray="3 2"/>
+
+      <!-- IR receiver -->
+      <rect x="345" y="370" width="30" height="14" rx="2" fill="#1c2230"/>
+      <text x="360" y="380" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#f3ece0">IR</text>
+
+      <!-- buzzer -->
+      <circle cx="270" cy="280" r="14" fill="none" stroke="#1c2230" stroke-width="1.4"/>
+      <circle cx="270" cy="280" r="6" fill="#1c2230"/>
+      <text x="270" y="306" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#1c2230">BUZZER</text>
+
+      <!-- servo terminals -->
+      <rect x="430" y="240" width="50" height="22" rx="2" fill="#1c2230"/>
+      <text x="455" y="255" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#f3ece0">S1 · S2</text>
+
+      <!-- battery holder -->
+      <rect x="240" y="395" width="240" height="20" rx="3" fill="none" stroke="#1c2230" stroke-width="1" stroke-dasharray="3 3"/>
+      <text x="360" y="409" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#6b7280">3 × AAA holder (underside)</text>
+
+      <!-- LABELS / leader lines -->
+      <g font-family="JetBrains Mono, monospace" font-size="10" fill="#1c2230">
+        <line x1="280" y1="93" x2="280" y2="40" stroke="#b8523a" stroke-width="0.8"/>
+        <line x1="280" y1="40" x2="180" y2="40" stroke="#b8523a" stroke-width="0.8"/>
+        <text x="175" y="43" text-anchor="end" fill="#8e3d2a">P8</text>
+
+        <line x1="440" y1="93" x2="440" y2="40" stroke="#b8523a" stroke-width="0.8"/>
+        <line x1="440" y1="40" x2="540" y2="40" stroke="#b8523a" stroke-width="0.8"/>
+        <text x="545" y="43" fill="#8e3d2a">P12</text>
+
+        <line x1="320" y1="131" x2="320" y2="155" stroke="#8e3d2a" stroke-width="0.6" stroke-dasharray="2 2"/>
+        <line x1="320" y1="155" x2="100" y2="155" stroke="#8e3d2a" stroke-width="0.8"/>
+        <text x="95" y="158" text-anchor="end" fill="#8e3d2a">P13 · LINE L (under)</text>
+
+        <line x1="400" y1="131" x2="400" y2="148" stroke="#8e3d2a" stroke-width="0.6" stroke-dasharray="2 2"/>
+        <line x1="400" y1="148" x2="620" y2="148" stroke="#8e3d2a" stroke-width="0.8"/>
+        <text x="625" y="151" fill="#8e3d2a">P14 · LINE R (under)</text>
+
+        <line x1="240" y1="167" x2="80" y2="220" stroke="#b8523a" stroke-width="0.8"/>
+        <text x="80" y="215" text-anchor="end" fill="#8e3d2a">P15 · RGB ×4</text>
+
+        <line x1="360" y1="384" x2="360" y2="445" stroke="#b8523a" stroke-width="0.8"/>
+        <line x1="360" y1="445" x2="180" y2="445" stroke="#b8523a" stroke-width="0.8"/>
+        <text x="175" y="448" text-anchor="end" fill="#8e3d2a">P16 · IR receiver</text>
+
+        <line x1="256" y1="280" x2="100" y2="280" stroke="#b8523a" stroke-width="0.8"/>
+        <text x="95" y="283" text-anchor="end" fill="#8e3d2a">P0 · buzzer</text>
+
+        <line x1="480" y1="251" x2="640" y2="251" stroke="#b8523a" stroke-width="0.8"/>
+        <text x="645" y="254" fill="#8e3d2a">S1=P1 · S2=P2</text>
+
+        <line x1="186" y1="200" x2="80" y2="320" stroke="#b8523a" stroke-width="0.8"/>
+        <text x="80" y="335" text-anchor="end" fill="#8e3d2a">I²C 0x10 · motors</text>
+
+        <line x1="360" y1="80" x2="360" y2="20" stroke="#b8523a" stroke-width="0.8"/>
+        <text x="360" y="16" text-anchor="middle" fill="#8e3d2a">SR04 socket — maqueen.Ultrasonic()</text>
+      </g>
+    </svg>
+    <div class="schematic-caption">Top-down view · pins in <span style="color:var(--terra);">terracotta</span> · components on the underside shown dashed</div>
+  </div>
+</section>
+
+<!-- 07 -->
+<section id="setup">
+  <div class="number">§ 07</div>
+  <h2>Getting started — first run in 5 minutes</h2>
+  <p>From the box on your desk to a robot moving on the floor: roughly five minutes if everything works, ten if you hit the typical hiccups.</p>
+  <ol class="steps">
+    <li><strong>Insert 3 × AAA batteries</strong> into the underside holder. Mind the polarity. Alkaline or NiMH both work; NiMH gives more consistent motor speed across a session.</li>
+    <li><strong>Slot the micro:bit</strong> into the front edge connector. The 25-LED matrix faces forward, the gold pads on the connector go in first.</li>
+    <li><strong>Open <a href="https://makecode.microbit.org" target="_blank" rel="noopener">makecode.microbit.org</a></strong> in any browser. No account needed.</li>
+    <li><strong>Add the maqueen extension</strong>: gear icon → Extensions → search "<code>maqueen</code>" → click the DFRobot result. The block palette gains a "Maqueen" category.</li>
+    <li><strong>If you want RGB</strong>: also add the <code>neopixel</code> extension the same way.</li>
+    <li><strong>Drop in three blocks</strong>: <em>on start</em> → <em>maqueen motor All forward speed 100</em> → <em>pause 1000 ms</em> → <em>maqueen motor stop</em>. That's a robot that scoots forward for one second.</li>
+    <li><strong>Click Download</strong>. A <code>.hex</code> file lands in your Downloads folder.</li>
+    <li><strong>Plug the micro:bit into your computer via USB</strong>. It mounts as a USB drive called <code>MICROBIT</code>. Drag the <code>.hex</code> onto it. The yellow LED on the back blinks while flashing, then stops.</li>
+    <li><strong>Unplug, place the robot on the floor, flip the power switch</strong>. It moves.</li>
+  </ol>
+</section>
+
+<!-- 08 -->
+<section id="environments">
+  <div class="number">§ 08</div>
+  <h2>Programming environments</h2>
+  <p>The same robot accepts code from at least four different toolchains. Pick by audience.</p>
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-tag">Default · ages 8+</div>
+      <h3>MakeCode</h3>
+      <p>Microsoft's browser editor. Drag-and-drop blocks, with a one-click toggle to JavaScript and Python. The Maqueen extension is first-class. <a href="https://makecode.microbit.org" target="_blank" rel="noopener">makecode.microbit.org</a></p>
+    </div>
+    <div class="card">
+      <div class="card-tag">Ages 12+</div>
+      <h3>Python (MicroPython)</h3>
+      <p>The micro:bit Foundation's editor. Pure text, real Python. Maqueen access via I²C / pin-level calls. <a href="https://python.microbit.org" target="_blank" rel="noopener">python.microbit.org</a></p>
+    </div>
+    <div class="card">
+      <div class="card-tag">Desktop · multilingual</div>
+      <h3>Mind+</h3>
+      <p>DFRobot's own editor. Scratch-style blocks plus a real-mode that compiles to Arduino C++ and Python. Useful when school computers are offline. <a href="https://mindplus.cc" target="_blank" rel="noopener">mindplus.cc</a></p>
+    </div>
+    <div class="card">
+      <div class="card-tag">AI · v2 only</div>
+      <h3>CreateAI</h3>
+      <p>Train a tiny model (gestures, sounds) in the browser using the micro:bit's own sensors, export as a MakeCode extension. <a href="https://createai.microbit.org" target="_blank" rel="noopener">createai.microbit.org</a></p>
+    </div>
+  </div>
+  <p>For classrooms transitioning from Scratch, MakeCode is the painless step up. The Blocks→JavaScript toggle is the single best feature in the whole stack: a child writes blocks, then sees the same logic as text, then starts typing it directly.</p>
+</section>
+
+<!-- 09 -->
+<section id="api">
+  <div class="number">§ 09</div>
+  <h2>The <code>maqueen</code> API at a glance</h2>
+  <p>The <a href="https://github.com/DFRobot/pxt-maqueen" target="_blank" rel="noopener">pxt-maqueen</a> extension exposes one namespace: <code>maqueen</code>. Everything onboard is accessed through it. Below, the eight calls that cover ~90% of activities.</p>
+
+  <h4>Movement</h4>
+  <div class="code-block">
+    <div class="code-header"><span>JavaScript · motors</span><button class="copy-btn">Copy</button></div>
+<pre><span class="tok-c">// Run both motors clockwise at speed 150 (range 0-255)</span>
+maqueen.<span class="tok-fn">motorRun</span>(maqueen.Motors.All, maqueen.Dir.CW, <span class="tok-n">150</span>)
+
+<span class="tok-c">// Stop everything</span>
+maqueen.<span class="tok-fn">motorStop</span>(maqueen.Motors.All)
+
+<span class="tok-c">// Spin in place: left back, right forward</span>
+maqueen.<span class="tok-fn">motorRun</span>(maqueen.Motors.M1, maqueen.Dir.CCW, <span class="tok-n">120</span>)
+maqueen.<span class="tok-fn">motorRun</span>(maqueen.Motors.M2, maqueen.Dir.CW,  <span class="tok-n">120</span>)</pre>
+  </div>
+
+  <h4>Front white LEDs</h4>
+  <div class="code-block">
+    <div class="code-header"><span>JavaScript · LEDs</span><button class="copy-btn">Copy</button></div>
+<pre>maqueen.<span class="tok-fn">writeLED</span>(maqueen.LED.LEDLeft,  maqueen.LEDswitch.turnOn)
+maqueen.<span class="tok-fn">writeLED</span>(maqueen.LED.LEDRight, maqueen.LEDswitch.turnOff)</pre>
+  </div>
+
+  <h4>Line sensors</h4>
+  <div class="code-block">
+    <div class="code-header"><span>JavaScript · line tracking</span><button class="copy-btn">Copy</button></div>
+<pre><span class="tok-k">let</span> left  = maqueen.<span class="tok-fn">readPatrol</span>(maqueen.Patrol.PatrolLeft)
+<span class="tok-k">let</span> right = maqueen.<span class="tok-fn">readPatrol</span>(maqueen.Patrol.PatrolRight)
+<span class="tok-c">// Returns 0 over white, 1 over black</span></pre>
+  </div>
+
+  <h4>Ultrasonic distance</h4>
+  <div class="code-block">
+    <div class="code-header"><span>JavaScript · SR04</span><button class="copy-btn">Copy</button></div>
+<pre><span class="tok-k">let</span> cm = maqueen.<span class="tok-fn">Ultrasonic</span>()  <span class="tok-c">// returns centimetres, 0-400</span>
+<span class="tok-k">if</span> (cm &lt; <span class="tok-n">15</span> &amp;&amp; cm &gt; <span class="tok-n">0</span>) {
+  basic.<span class="tok-fn">showIcon</span>(IconNames.No)
+}</pre>
+  </div>
+
+  <h4>Servos</h4>
+  <div class="code-block">
+    <div class="code-header"><span>JavaScript · servos</span><button class="copy-btn">Copy</button></div>
+<pre>maqueen.<span class="tok-fn">servoRun</span>(maqueen.Servos.S1, <span class="tok-n">90</span>)   <span class="tok-c">// 0-180 deg; keep 10-170 for safety</span>
+maqueen.<span class="tok-fn">servoRun</span>(maqueen.Servos.S2, <span class="tok-n">45</span>)</pre>
+  </div>
+
+  <h4>RGB NeoPixels (separate <code>neopixel</code> extension)</h4>
+  <div class="code-block">
+    <div class="code-header"><span>JavaScript · RGB</span><button class="copy-btn">Copy</button></div>
+<pre><span class="tok-k">let</span> strip = neopixel.<span class="tok-fn">create</span>(DigitalPin.P15, <span class="tok-n">4</span>, NeoPixelMode.RGB)
+strip.<span class="tok-fn">showColor</span>(neopixel.<span class="tok-fn">colors</span>(NeoPixelColors.Purple))
+basic.<span class="tok-fn">pause</span>(<span class="tok-n">500</span>)
+strip.<span class="tok-fn">clear</span>()
+strip.<span class="tok-fn">show</span>()</pre>
+  </div>
+
+  <h4>IR remote</h4>
+  <div class="code-block">
+    <div class="code-header"><span>JavaScript · IR receiver</span><button class="copy-btn">Copy</button></div>
+<pre><span class="tok-k">let</span> code = maqueen.<span class="tok-fn">IR_Read</span>(IR_Pin.P16)
+<span class="tok-k">if</span> (code == <span class="tok-n">0x45</span>) basic.<span class="tok-fn">showString</span>(<span class="tok-s">"PWR"</span>)</pre>
+  </div>
+
+  <p class="meta" style="margin-top:18px;">→ For 24 copy-paste-ready patterns covering every API call above (motors, LEDs, RGB strip, sensors, radio, AI), see the <strong>Code cheatsheet</strong> in <a href="https://abourdim.github.io/maqueen-activities/" target="_blank" rel="noopener">Guide Terrain</a> — same exact API, in working activity context.</p>
+</section>
+
+<!-- 10 -->
+<section id="recipes">
+  <div class="number">§ 10</div>
+  <h2>Code recipes — six things that always work</h2>
+  <p>Drop these into a fresh MakeCode project. Each is self-contained and tested against the working API.</p>
+
+  <h3>1. Square dance</h3>
+  <p>Drive a 30 cm × 30 cm square. Tweak the timing constants for your battery level.</p>
+  <div class="code-block">
+    <div class="code-header"><span>JavaScript</span><button class="copy-btn">Copy</button></div>
+<pre><span class="tok-k">for</span> (<span class="tok-k">let</span> i = <span class="tok-n">0</span>; i &lt; <span class="tok-n">4</span>; i++) {
+  maqueen.<span class="tok-fn">motorRun</span>(maqueen.Motors.All, maqueen.Dir.CW, <span class="tok-n">120</span>)
+  basic.<span class="tok-fn">pause</span>(<span class="tok-n">800</span>)
+  maqueen.<span class="tok-fn">motorRun</span>(maqueen.Motors.M1, maqueen.Dir.CW,  <span class="tok-n">120</span>)
+  maqueen.<span class="tok-fn">motorRun</span>(maqueen.Motors.M2, maqueen.Dir.CCW, <span class="tok-n">120</span>)
+  basic.<span class="tok-fn">pause</span>(<span class="tok-n">450</span>)
+}
+maqueen.<span class="tok-fn">motorStop</span>(maqueen.Motors.All)</pre>
+  </div>
+
+  <h3>2. Two-sensor line follower</h3>
+  <p>The simplest viable line-follow: read both, choose one of four cases.</p>
+  <div class="code-block">
+    <div class="code-header"><span>JavaScript</span><button class="copy-btn">Copy</button></div>
+<pre>basic.<span class="tok-fn">forever</span>(<span class="tok-k">function</span> () {
+  <span class="tok-k">let</span> L = maqueen.<span class="tok-fn">readPatrol</span>(maqueen.Patrol.PatrolLeft)
+  <span class="tok-k">let</span> R = maqueen.<span class="tok-fn">readPatrol</span>(maqueen.Patrol.PatrolRight)
+  <span class="tok-k">if</span> (L == <span class="tok-n">0</span> &amp;&amp; R == <span class="tok-n">0</span>) {           <span class="tok-c">// both white — drive straight</span>
+    maqueen.<span class="tok-fn">motorRun</span>(maqueen.Motors.All, maqueen.Dir.CW, <span class="tok-n">100</span>)
+  } <span class="tok-k">else if</span> (L == <span class="tok-n">1</span> &amp;&amp; R == <span class="tok-n">0</span>) {    <span class="tok-c">// drifting right — turn left</span>
+    maqueen.<span class="tok-fn">motorRun</span>(maqueen.Motors.M1, maqueen.Dir.CW, <span class="tok-n">40</span>)
+    maqueen.<span class="tok-fn">motorRun</span>(maqueen.Motors.M2, maqueen.Dir.CW, <span class="tok-n">120</span>)
+  } <span class="tok-k">else if</span> (L == <span class="tok-n">0</span> &amp;&amp; R == <span class="tok-n">1</span>) {    <span class="tok-c">// drifting left — turn right</span>
+    maqueen.<span class="tok-fn">motorRun</span>(maqueen.Motors.M1, maqueen.Dir.CW, <span class="tok-n">120</span>)
+    maqueen.<span class="tok-fn">motorRun</span>(maqueen.Motors.M2, maqueen.Dir.CW, <span class="tok-n">40</span>)
+  } <span class="tok-k">else</span> {                              <span class="tok-c">// both black — intersection or end</span>
+    maqueen.<span class="tok-fn">motorStop</span>(maqueen.Motors.All)
+  }
+})</pre>
+  </div>
+
+  <h3>3. Obstacle avoider</h3>
+  <p>Forward until something appears within 15 cm, then turn away and resume.</p>
+  <div class="code-block">
+    <div class="code-header"><span>JavaScript</span><button class="copy-btn">Copy</button></div>
+<pre>basic.<span class="tok-fn">forever</span>(<span class="tok-k">function</span> () {
+  <span class="tok-k">let</span> d = maqueen.<span class="tok-fn">Ultrasonic</span>()
+  <span class="tok-k">if</span> (d &gt; <span class="tok-n">0</span> &amp;&amp; d &lt; <span class="tok-n">15</span>) {
+    maqueen.<span class="tok-fn">motorRun</span>(maqueen.Motors.All, maqueen.Dir.CCW, <span class="tok-n">100</span>)
+    basic.<span class="tok-fn">pause</span>(<span class="tok-n">300</span>)
+    maqueen.<span class="tok-fn">motorRun</span>(maqueen.Motors.M1, maqueen.Dir.CW,  <span class="tok-n">120</span>)
+    maqueen.<span class="tok-fn">motorRun</span>(maqueen.Motors.M2, maqueen.Dir.CCW, <span class="tok-n">120</span>)
+    basic.<span class="tok-fn">pause</span>(<span class="tok-n">400</span>)
+  } <span class="tok-k">else</span> {
+    maqueen.<span class="tok-fn">motorRun</span>(maqueen.Motors.All, maqueen.Dir.CW, <span class="tok-n">110</span>)
+  }
+})</pre>
+  </div>
+
+  <h3>4. Distance-to-colour gauge</h3>
+  <p>The four RGB pixels glow green-amber-red as something gets closer. Useful as a tangible explanation of how analog sensors map to outputs.</p>
+  <div class="code-block">
+    <div class="code-header"><span>JavaScript</span><button class="copy-btn">Copy</button></div>
+<pre><span class="tok-k">let</span> strip = neopixel.<span class="tok-fn">create</span>(DigitalPin.P15, <span class="tok-n">4</span>, NeoPixelMode.RGB)
+basic.<span class="tok-fn">forever</span>(<span class="tok-k">function</span> () {
+  <span class="tok-k">let</span> d = maqueen.<span class="tok-fn">Ultrasonic</span>()
+  <span class="tok-k">if</span> (d &gt; <span class="tok-n">30</span>) strip.<span class="tok-fn">showColor</span>(neopixel.<span class="tok-fn">colors</span>(NeoPixelColors.Green))
+  <span class="tok-k">else if</span> (d &gt; <span class="tok-n">10</span>) strip.<span class="tok-fn">showColor</span>(neopixel.<span class="tok-fn">colors</span>(NeoPixelColors.Yellow))
+  <span class="tok-k">else</span> strip.<span class="tok-fn">showColor</span>(neopixel.<span class="tok-fn">colors</span>(NeoPixelColors.Red))
+  basic.<span class="tok-fn">pause</span>(<span class="tok-n">100</span>)
+})</pre>
+  </div>
+
+  <h3>5. Clap-to-go (v2 only)</h3>
+  <p>Uses the v2 onboard microphone. The robot lurches forward when it hears a sharp sound.</p>
+  <div class="code-block">
+    <div class="code-header"><span>JavaScript</span><button class="copy-btn">Copy</button></div>
+<pre>input.<span class="tok-fn">onSound</span>(DetectedSound.Loud, <span class="tok-k">function</span> () {
+  maqueen.<span class="tok-fn">motorRun</span>(maqueen.Motors.All, maqueen.Dir.CW, <span class="tok-n">160</span>)
+  basic.<span class="tok-fn">pause</span>(<span class="tok-n">600</span>)
+  maqueen.<span class="tok-fn">motorStop</span>(maqueen.Motors.All)
+})</pre>
+  </div>
+
+  <h3>6. Same thing in Python</h3>
+  <p>Square dance, but in MicroPython, for the older students. Note the Python API uses different verbs — wrap them in helper functions early.</p>
+  <div class="code-block">
+    <div class="code-header"><span>Python · MicroPython</span><button class="copy-btn">Copy</button></div>
+<pre><span class="tok-k">from</span> microbit <span class="tok-k">import</span> *
+<span class="tok-k">import</span> maqueen
+
+<span class="tok-k">for</span> _ <span class="tok-k">in</span> <span class="tok-fn">range</span>(<span class="tok-n">4</span>):
+    maqueen.motor_run(maqueen.ALL, maqueen.CW, <span class="tok-n">120</span>)
+    sleep(<span class="tok-n">800</span>)
+    maqueen.motor_run(maqueen.M1, maqueen.CW,  <span class="tok-n">120</span>)
+    maqueen.motor_run(maqueen.M2, maqueen.CCW, <span class="tok-n">120</span>)
+    sleep(<span class="tok-n">450</span>)
+
+maqueen.motor_stop(maqueen.ALL)</pre>
+  </div>
+</section>
+
+<!-- 11 -->
+<section id="wiki-examples">
+  <div class="number">§ 11</div>
+  <h2>The 16 official examples — catalog</h2>
+  <p>The DFRobot wiki for ROB0148 ships with a canonical set of 16 walk-through examples — the official starting point for every Maqueen Lite. They progress from simple I/O (LED flash, motor control) through sensor reading (line, ultrasonic, IR) to coordinated behaviour (line-following, obstacle avoidance, light-following) and end with wireless control and a hardware self-identifier. This catalog summarises what each one teaches at the API level so you can find the right example for the capability you want to demonstrate.</p>
+
+  <div class="callout">
+    <div class="callout-label">Where to find the actual code</div>
+    <p>Two complementary sources, both linked per row below: <strong>(a)</strong> the original wiki page on dfrobot.com — canonical, with the original step-by-step text, wiring photos and downloadable .hex files; <strong>(b)</strong> <a href="https://abourdim.github.io/maqueen-activities/" target="_blank" rel="noopener">Guide Terrain</a> — the same 16 examples reproduced in FR / EN / AR with flowcharts, copy buttons, JavaScript + Python side-by-side, graduated challenges, and a "mark as done" checkbox. Look for the <strong>📘 Officiel</strong> category in Guide Terrain.</p>
+  </div>
+
+  <div class="wiki-cat">
+
+    <div class="wiki-row">
+      <div class="wiki-num">01</div>
+      <div class="wiki-body">
+        <div class="wiki-title">Getting started — calibration &amp; library import</div>
+        <p>Walks through calibrating the two line-tracking sensors (P13 / P14) for your printing-paper / black-tape combination, and importing the <code>maqueen</code> MakeCode extension. Read this before any of the others.</p>
+        <div class="wiki-tags"><span>setup</span><span>calibration</span></div>
+        <div class="wiki-links"><a href="https://wiki.dfrobot.com/rob0148-en/docs/22595" target="_blank" rel="noopener">Wiki</a> · <a href="https://abourdim.github.io/maqueen-activities/" target="_blank" rel="noopener">Guide Terrain</a></div>
+      </div>
+    </div>
+
+    <div class="wiki-row">
+      <div class="wiki-num">02</div>
+      <div class="wiki-body">
+        <div class="wiki-title">IR remote control — full driving</div>
+        <p>Covers the full driving-by-IR-remote workflow: forward, backward, left, right, stop. Reads the IR receiver on P16, dispatches motor commands. Note: there's a second IR-remote example (#9) with a different focus — this one (#2) is the from-scratch tutorial.</p>
+        <div class="wiki-tags"><span>P16 IR</span><span>motorRun</span><span>IR_Read</span></div>
+        <div class="wiki-links"><a href="https://wiki.dfrobot.com/rob0148-en-lb/docs/21449" target="_blank" rel="noopener">Wiki</a> · <a href="https://abourdim.github.io/maqueen-activities/" target="_blank" rel="noopener">Guide Terrain</a></div>
+      </div>
+    </div>
+
+    <div class="wiki-row">
+      <div class="wiki-num">03</div>
+      <div class="wiki-body">
+        <div class="wiki-title">Auto line-tracking — full tutorial</div>
+        <p>The complete line-following walk-through: hardware, MakeCode setup, sensor wiring, control logic. Uses both line sensors (<code>readPatrol</code> on PatrolLeft / PatrolRight) plus motor control. As with #2, there's a shorter second pass at this same idea (#12).</p>
+        <div class="wiki-tags"><span>P13 P14</span><span>readPatrol</span><span>motorRun</span></div>
+        <div class="wiki-links"><a href="https://wiki.dfrobot.com/rob0148-en-lb/docs/21447" target="_blank" rel="noopener">Wiki</a> · <a href="https://abourdim.github.io/maqueen-activities/" target="_blank" rel="noopener">Guide Terrain</a></div>
+      </div>
+    </div>
+
+    <div class="wiki-row">
+      <div class="wiki-num">04</div>
+      <div class="wiki-body">
+        <div class="wiki-title">Motor control</div>
+        <p>The fundamental motor demo. Drives both motors via the I²C 0x10 controller — forward, reverse, individual-side, all-stop. The pattern under every other moving-robot example.</p>
+        <div class="wiki-tags"><span>I²C 0x10</span><span>motorRun</span><span>motorStop</span></div>
+        <div class="wiki-links"><a href="https://wiki.dfrobot.com/rob0148-en/docs/20849" target="_blank" rel="noopener">Wiki</a> · <a href="https://abourdim.github.io/maqueen-activities/" target="_blank" rel="noopener">Guide Terrain</a></div>
+      </div>
+    </div>
+
+    <div class="wiki-row">
+      <div class="wiki-num">05</div>
+      <div class="wiki-body">
+        <div class="wiki-title">RGB breathing ambient light</div>
+        <p>Drives the four NeoPixel RGB LEDs on P15 in a smooth fade — the "breathing" effect. Requires the separate <code>neopixel</code> MakeCode extension (the <code>maqueen</code> extension does not include it).</p>
+        <div class="wiki-tags"><span>P15 NeoPixel</span><span>neopixel ext</span></div>
+        <div class="wiki-links"><a href="https://wiki.dfrobot.com/rob0148-en/docs/20848" target="_blank" rel="noopener">Wiki</a> · <a href="https://abourdim.github.io/maqueen-activities/" target="_blank" rel="noopener">Guide Terrain</a></div>
+      </div>
+    </div>
+
+    <div class="wiki-row">
+      <div class="wiki-num">06</div>
+      <div class="wiki-body">
+        <div class="wiki-title">Read ultrasonic distance</div>
+        <p>Polls the SR04 (or SR04P) at the front socket via <code>maqueen.Ultrasonic()</code>, displays the distance in centimetres on the micro:bit LED matrix. Foundation for #11.</p>
+        <div class="wiki-tags"><span>SR04 socket</span><span>Ultrasonic()</span></div>
+        <div class="wiki-links"><a href="https://wiki.dfrobot.com/rob0148-en/docs/20846" target="_blank" rel="noopener">Wiki</a> · <a href="https://abourdim.github.io/maqueen-activities/" target="_blank" rel="noopener">Guide Terrain</a></div>
+      </div>
+    </div>
+
+    <div class="wiki-row">
+      <div class="wiki-num">07</div>
+      <div class="wiki-body">
+        <div class="wiki-title">LED light flash</div>
+        <p>Toggles the two front white headlamp LEDs (<code>LEDLeft</code> on P8, <code>LEDRight</code> on P12). The simplest possible "hardware works" demo — usually the first thing teachers run after upload to confirm the cable is good.</p>
+        <div class="wiki-tags"><span>P8 P12</span><span>writeLED</span></div>
+        <div class="wiki-links"><a href="https://wiki.dfrobot.com/rob0148-en/docs/20847" target="_blank" rel="noopener">Wiki</a> · <a href="https://abourdim.github.io/maqueen-activities/" target="_blank" rel="noopener">Guide Terrain</a></div>
+      </div>
+    </div>
+
+    <div class="wiki-row">
+      <div class="wiki-num">08</div>
+      <div class="wiki-body">
+        <div class="wiki-title">Read infrared key codes</div>
+        <p>Press a button on the IR remote, the matching numeric key code appears on the micro:bit LED matrix (last two decimal digits). The discovery exercise that lets students build their own key-to-action mapping for use in #9 and #2.</p>
+        <div class="wiki-tags"><span>P16 IR</span><span>IR_Read</span><span>showNumber</span></div>
+        <div class="wiki-links"><a href="https://wiki.dfrobot.com/rob0148-en/docs/20845" target="_blank" rel="noopener">Wiki</a> · <a href="https://abourdim.github.io/maqueen-activities/" target="_blank" rel="noopener">Guide Terrain</a></div>
+      </div>
+    </div>
+
+    <div class="wiki-row">
+      <div class="wiki-num">09</div>
+      <div class="wiki-body">
+        <div class="wiki-title">IR remote — drive Maqueen</div>
+        <p>Uses keys 2 / 8 / 4 / 6 / 5 (a "directional pad" layout on the standard remote) to drive: forward / backward / left / right / stop. Builds on the key codes discovered in #8.</p>
+        <div class="wiki-tags"><span>P16 IR</span><span>IR_Read</span><span>motorRun</span></div>
+        <div class="wiki-links"><a href="https://wiki.dfrobot.com/rob0148-en/docs/20844" target="_blank" rel="noopener">Wiki</a> · <a href="https://abourdim.github.io/maqueen-activities/" target="_blank" rel="noopener">Guide Terrain</a></div>
+      </div>
+    </div>
+
+    <div class="wiki-row">
+      <div class="wiki-num">10</div>
+      <div class="wiki-body">
+        <div class="wiki-title">Read line-tracking sensor</div>
+        <p>Inspect the raw output of one line sensor: 0 means "on black", 1 means "on white" (or vice versa, depending on calibration). Displays the value on the LED matrix. The sensor-only counterpart to #3 / #12.</p>
+        <div class="wiki-tags"><span>P13 P14</span><span>readPatrol</span></div>
+        <div class="wiki-links"><a href="https://wiki.dfrobot.com/rob0148-en/docs/20843" target="_blank" rel="noopener">Wiki</a> · <a href="https://abourdim.github.io/maqueen-activities/" target="_blank" rel="noopener">Guide Terrain</a></div>
+      </div>
+    </div>
+
+    <div class="wiki-row">
+      <div class="wiki-num">11</div>
+      <div class="wiki-body">
+        <div class="wiki-title">Ultrasonic obstacle-avoidance</div>
+        <p>Continuous distance sweep; below 30 cm the robot picks left or right at random and turns. Combines #4 (motors) + #6 (ultrasonic) into the canonical "self-driving Maqueen" demo.</p>
+        <div class="wiki-tags"><span>SR04</span><span>Ultrasonic()</span><span>motorRun</span><span>random</span></div>
+        <div class="wiki-links"><a href="https://wiki.dfrobot.com/rob0148-en/docs/20841" target="_blank" rel="noopener">Wiki</a> · <a href="https://abourdim.github.io/maqueen-activities/" target="_blank" rel="noopener">Guide Terrain</a></div>
+      </div>
+    </div>
+
+    <div class="wiki-row">
+      <div class="wiki-num">12</div>
+      <div class="wiki-body">
+        <div class="wiki-title">Line-tracking</div>
+        <p>The compact second pass at line following — drives along a black line on the official map (or any black tape on a white surface). Less pedagogical wiring detail than #3, more "drop-in working code".</p>
+        <div class="wiki-tags"><span>P13 P14</span><span>readPatrol</span><span>motorRun</span></div>
+        <div class="wiki-links"><a href="https://wiki.dfrobot.com/rob0148-en/docs/20842" target="_blank" rel="noopener">Wiki</a> · <a href="https://abourdim.github.io/maqueen-activities/" target="_blank" rel="noopener">Guide Terrain</a></div>
+      </div>
+    </div>
+
+    <div class="wiki-row">
+      <div class="wiki-num">13</div>
+      <div class="wiki-body">
+        <div class="wiki-title">Light-operated sprite (light-following)</div>
+        <p>Uses the micro:bit's built-in light sensor (the LED matrix doubles as a photodiode array). Brighter light → faster motors. A flashlight beam aimed at the LEDs makes the robot accelerate. No extra hardware.</p>
+        <div class="wiki-tags"><span>input.lightLevel</span><span>motorRun</span></div>
+        <div class="wiki-links"><a href="https://wiki.dfrobot.com/rob0148-en/docs/20840" target="_blank" rel="noopener">Wiki</a> · <a href="https://abourdim.github.io/maqueen-activities/" target="_blank" rel="noopener">Guide Terrain</a></div>
+      </div>
+    </div>
+
+    <div class="wiki-row">
+      <div class="wiki-num">14</div>
+      <div class="wiki-body">
+        <div class="wiki-title">Wireless remote — micro:bit GamePad</div>
+        <p>Uses a second micro:bit (mounted in the optional GamePad accessory) as a controller. Both micro:bits join the same radio group; button presses on the gamepad transmit codes the Maqueen interprets as motion. The standard wireless-control pattern.</p>
+        <div class="wiki-tags"><span>radio</span><span>second micro:bit</span><span>GamePad</span></div>
+        <div class="wiki-links"><a href="https://wiki.dfrobot.com/rob0148-en/docs/20839" target="_blank" rel="noopener">Wiki</a> · <a href="https://abourdim.github.io/maqueen-activities/" target="_blank" rel="noopener">Guide Terrain</a></div>
+      </div>
+    </div>
+
+    <div class="wiki-row">
+      <div class="wiki-num">15</div>
+      <div class="wiki-body">
+        <div class="wiki-title">Driving servo</div>
+        <p>Sweeps the S1 servo from 0° to 150° repeatedly. The minimum-viable servo demo, ready to expand into any Mechanic kit's animation. Centre at 90 before mounting moving parts (see § 12 — Mechanic).</p>
+        <div class="wiki-tags"><span>P1 / P2</span><span>servoRun</span></div>
+        <div class="wiki-links"><a href="https://wiki.dfrobot.com/rob0148-en/docs/20838" target="_blank" rel="noopener">Wiki</a> · <a href="https://abourdim.github.io/maqueen-activities/" target="_blank" rel="noopener">Guide Terrain</a></div>
+      </div>
+    </div>
+
+    <div class="wiki-row">
+      <div class="wiki-num">16</div>
+      <div class="wiki-body">
+        <div class="wiki-title">Get product information</div>
+        <p>Calls the on-board <code>getVersion()</code>-style hook and shows the firmware locale tag on the LED matrix: ROB0148-EN (English), ROB0148-CN (Simplified Chinese), ROB0148-TW (Traditional Chinese), ROB0148-KR (Korean), ROB148-JP (Japanese). Useful as a "is this the right firmware" sanity check.</p>
+        <div class="wiki-tags"><span>diagnostic</span><span>showString</span></div>
+        <div class="wiki-links"><a href="https://wiki.dfrobot.com/rob0148-en/docs/20837" target="_blank" rel="noopener">Wiki</a> · <a href="https://abourdim.github.io/maqueen-activities/" target="_blank" rel="noopener">Guide Terrain</a></div>
+      </div>
+    </div>
+
+  </div>
+
+  <h3>Reading order — what to teach when</h3>
+  <p>The wiki lists the examples in catalog order, not pedagogical order. A pragmatic teaching sequence:</p>
+  <ol class="steps">
+    <li><strong>Setup &amp; smoke test:</strong> #1 (calibration) → #7 (LED flash) → #16 (get product info). At the end of this trio the student has confirmed the upload pipeline, the chassis power, and the firmware identity.</li>
+    <li><strong>Single-component reads:</strong> #10 (line sensor raw) → #6 (ultrasonic raw) → #8 (IR key codes) → #13 (light level). One sensor at a time, value displayed on the matrix. Builds intuition for what "reading a sensor" actually means.</li>
+    <li><strong>Single-component drives:</strong> #4 (motors) → #15 (servo) → #5 (RGB ambient). One actuator at a time.</li>
+    <li><strong>Combined behaviours:</strong> #11 (ultrasonic obstacle avoidance) → #3 / #12 (line following) → #2 / #9 (IR-driven Maqueen) → #14 (wireless GamePad).</li>
+  </ol>
+  <p class="meta" style="margin-top:18px;">→ <a href="https://abourdim.github.io/maqueen-activities/" target="_blank" rel="noopener">Guide Terrain</a> wraps each of the 16 examples in lesson scaffolding (objective, materials, numbered steps, teaching tip, flowchart, pseudo-code, JS + Python, graduated challenges, mark-as-done). It also adds 70 creative extensions on top — categorised under Mouvement, LEDs &amp; Son, Capteurs, Interactivité, Robotique, Défis and IA.</p>
+</section>
+
+<!-- 12 -->
+<section id="mechanic">
+  <div class="number">§ 12</div>
+  <h2>Mechanic add-ons — full feature reference</h2>
+  <p>Each kit is a metal-gear servo plus a mechanical assembly that bolts onto the standard expansion holes on the top deck. Wire the servo to S1 (or S2), code the angle, watch the thing move. Below: shared specs, three universal rules, and a full profile for each of the four kits — what it does, how it moves, how to drive it, and what to teach with it.</p>
+
+  <div class="callout">
+    <div class="callout-label">Official assembly tutorials — every kit, image-rich PDF</div>
+    <p>DFRobot publishes a separate step-by-step PDF for each kit (mostly photographs, no narration). These are the canonical visual instructions; my prose steps below complement them but do not replace them. Open these alongside the diagrams in this section.</p>
+    <ul class="refined">
+      <li><strong>All four kits, in one document:</strong> <a href="https://github.com/DFRobot/Maqueen_Mechanic_instructions/blob/master/Maqueen%20Mechanic%20instructions.pdf" target="_blank" rel="noopener">Master Mechanic instructions PDF</a> (8.25 MB) — the consolidated reference that ships with every kit purchase. <a href="https://learn.dfrobot.com/makelog-308436.html" target="_blank" rel="noopener">Walkthrough article</a> covers the same ground in HTML.</li>
+      <li>🍴 <strong>Forklift (ROB0156-F):</strong> <a href="https://github.com/May-DFRobot/DFRobot/blob/master/ROB0156-F-Tutorial%20of%20Maqueen%20Mechanic%20-%20Forklift-EN.pdf" target="_blank" rel="noopener">Tutorial of Maqueen Mechanic – Forklift (EN)</a> · <a href="https://wiki.dfrobot.com/_SKU_ROB0156-F_microMaqueen_Mechanic_Forklift" target="_blank" rel="noopener">wiki page</a></li>
+      <li>🚜 <strong>Loader (ROB0156-L):</strong> <a href="https://github.com/DFRobot/ROB0156-L-Tutorial-of-Maqueen-Mechanic-Loader-EN/blob/master/ROB0156-L-Tutorial%20of%20Maqueen%20Mechanic-Loader-EN.pdf" target="_blank" rel="noopener">Tutorial of Maqueen Mechanic – Loader (EN)</a> · <a href="https://wiki.dfrobot.com/rob0156-l/" target="_blank" rel="noopener">wiki page</a></li>
+      <li>🪲 <strong>Beetle gripper (ROB0156-B):</strong> <a href="https://github.com/DFRobot/Tutorial_of_Maqueen_Mechanic_Beetle_EN/blob/master/ROB0156-B-Tutorial%20of%20Maqueen%20Mechanic-Beetle-EN.pdf" target="_blank" rel="noopener">Tutorial of Maqueen Mechanic – Beetle (EN)</a> · <a href="https://wiki.dfrobot.com/ROB0156-B/" target="_blank" rel="noopener">wiki page</a></li>
+      <li>🛻 <strong>Push / bulldozer (ROB0156-P):</strong> <a href="https://github.com/May-DFRobot/DFRobot/blob/master/ROB0156-P-Tutorial%20of%20Maqueen%20Mechanic-Push-EN.pdf" target="_blank" rel="noopener">Tutorial of Maqueen Mechanic – Push (EN)</a> · <a href="https://wiki.dfrobot.com/rob0156-p/" target="_blank" rel="noopener">wiki page</a></li>
+      <li><strong>Base robot (Maqueen Lite, ROB0148):</strong> <a href="https://github.com/May-DFRobot/DFRobot/blob/master/maqueen%20lite%20Installation%20instructions-V1.1-20220309.pdf" target="_blank" rel="noopener">Maqueen Lite Installation instructions v1.1</a> — the base-robot setup PDF. Useful before any kit is added: SR04 plug-in, GamePad pairing, battery polarity.</li>
+    </ul>
+  </div>
+
+  <h3>Shared specifications</h3>
+  <p>All four kits in the <a href="https://learn.dfrobot.com/makelog-308436.html" target="_blank" rel="noopener">Mechanic family</a> use an identical metal-gear servo and identical mounting hardware:</p>
+  <ul class="refined">
+    <li><strong>Servo:</strong> 12 g ± 1 g, metal-gear, 0–180° control range (operate within 10°–170°), standby current &lt; 45 mA, draws peak current well within Maqueen Lite's 4.5 V rail.</li>
+    <li><strong>Frame:</strong> aluminium alloy, sandblasted and oxidised — durable enough for daily classroom use; the moving assemblies on each kit are metal too, not plastic.</li>
+    <li><strong>Control ports:</strong> <code>S1</code> (=P1) or <code>S2</code> (=P2) on Maqueen Lite. Maqueen Plus models also expose S3.</li>
+    <li><strong>Compatibility:</strong> Maqueen 4.0 and later. The Lite that ships today is fully compatible.</li>
+    <li><strong>Bundle:</strong> all four kits available together as <a href="https://wiki.dfrobot.com/_SKU_ROB0163-EN_Maqueen_Mechanic_Mechanical_Parts" target="_blank" rel="noopener">ROB0163</a>.</li>
+  </ul>
+
+  <h3>Three universal mounting rules</h3>
+  <ul class="refined">
+    <li><strong>Centre the servo at 90° before mounting</strong> the moving arm. Otherwise the assembly hits a hard stop and the gears strip.</li>
+    <li><strong>Operate within 10°–170°.</strong> DFRobot's own warning. Never command 0 or 180 as a working angle.</li>
+    <li><strong>Calibrate "open" and "closed" (or "up" and "down") angles per build</strong> — store them as constants at the top of every program. Servos vary; tolerances vary.</li>
+  </ul>
+
+  <h3>Generic skeleton (works for all four kits)</h3>
+  <div class="code-block">
+    <div class="code-header"><span>JavaScript · base template</span><button class="copy-btn">Copy</button></div>
+<pre><span class="tok-c">// Constants — calibrate per kit and per build</span>
+<span class="tok-k">const</span> ANGLE_DOWN = <span class="tok-n">20</span>      <span class="tok-c">// e.g. fork at floor / gripper open</span>
+<span class="tok-k">const</span> ANGLE_UP   = <span class="tok-n">160</span>     <span class="tok-c">// e.g. fork raised / gripper closed</span>
+
+input.<span class="tok-fn">onButtonPressed</span>(Button.A, <span class="tok-k">function</span> () {
+  maqueen.<span class="tok-fn">servoRun</span>(maqueen.Servos.S1, ANGLE_DOWN)
+})
+input.<span class="tok-fn">onButtonPressed</span>(Button.B, <span class="tok-k">function</span> () {
+  maqueen.<span class="tok-fn">servoRun</span>(maqueen.Servos.S1, ANGLE_UP)
+})</pre>
+  </div>
+
+  <h3>Universal hardware reference</h3>
+  <p>Before opening any single kit, a few facts apply to all four. Where do they bolt on? Which way does the servo cable face? What tools do you need? This subsection shows the chassis from above with the four standard expansion holes highlighted, the standard servo cable colour code, and the order to do things in.</p>
+
+  <div class="schematic">
+    <svg viewBox="0 0 700 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mounting points and servo wiring reference">
+      <text x="20" y="28" font-family="Cormorant Garamond, serif" font-size="17" fill="#1c2230" font-style="italic">Top deck — where every kit attaches</text>
+
+      <g transform="translate(20, 50)">
+        <text x="14" y="0" font-family="JetBrains Mono, monospace" font-size="9" fill="#6b7280" letter-spacing="0.1em">FRONT ↑</text>
+        <path d="M 80 30 Q 180 16 280 30 L 295 60 L 305 110 L 305 200 L 295 235 L 280 255 L 80 255 L 65 235 L 55 200 L 55 110 L 65 60 Z" fill="#ebe1cf" stroke="#1c2230" stroke-width="0.9"/>
+        <rect x="35" y="125" width="22" height="80" rx="3" fill="#1c2230" opacity="0.85"/>
+        <rect x="303" y="125" width="22" height="80" rx="3" fill="#1c2230" opacity="0.85"/>
+        <rect x="115" y="55" width="130" height="55" rx="3" fill="none" stroke="#6b7280" stroke-width="0.5" stroke-dasharray="2 2"/>
+        <text x="180" y="86" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#6b7280">micro:bit slot</text>
+
+        <circle cx="115" cy="155" r="7" fill="#b8523a" stroke="#1c2230" stroke-width="0.8"/>
+        <circle cx="245" cy="155" r="7" fill="#b8523a" stroke="#1c2230" stroke-width="0.8"/>
+        <circle cx="115" cy="220" r="7" fill="#b8523a" stroke="#1c2230" stroke-width="0.8"/>
+        <circle cx="245" cy="220" r="7" fill="#b8523a" stroke="#1c2230" stroke-width="0.8"/>
+
+        <rect x="155" y="180" width="50" height="22" rx="2" fill="#1c2230"/>
+        <text x="180" y="194" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#f3ece0">S1 · S2</text>
+      </g>
+
+      <g transform="translate(395, 50)">
+        <text x="0" y="0" font-family="Cormorant Garamond, serif" font-size="17" fill="#1c2230" font-style="italic">Servo cable — three wires, fixed order</text>
+
+        <rect x="20" y="35" width="80" height="40" rx="3" fill="#ebe1cf" stroke="#1c2230" stroke-width="0.9"/>
+        <text x="60" y="28" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#1c2230">connector</text>
+        <rect x="32" y="75" width="6" height="20" fill="#1c2230"/>
+        <rect x="57" y="75" width="6" height="20" fill="#1c2230"/>
+        <rect x="82" y="75" width="6" height="20" fill="#1c2230"/>
+        <line x1="35" y1="95" x2="35" y2="125" stroke="#cd7437" stroke-width="3.5" stroke-linecap="round"/>
+        <line x1="60" y1="95" x2="60" y2="125" stroke="#c83a3a" stroke-width="3.5" stroke-linecap="round"/>
+        <line x1="85" y1="95" x2="85" y2="125" stroke="#5a3a1a" stroke-width="3.5" stroke-linecap="round"/>
+
+        <rect x="0" y="140" width="14" height="9" rx="1" fill="#cd7437"/>
+        <text x="20" y="148" font-family="JetBrains Mono, monospace" font-size="11" fill="#1c2230">orange · signal (PWM)</text>
+        <rect x="0" y="158" width="14" height="9" rx="1" fill="#c83a3a"/>
+        <text x="20" y="166" font-family="JetBrains Mono, monospace" font-size="11" fill="#1c2230">red · VCC (+5 V)</text>
+        <rect x="0" y="176" width="14" height="9" rx="1" fill="#5a3a1a"/>
+        <text x="20" y="184" font-family="JetBrains Mono, monospace" font-size="11" fill="#1c2230">brown · GND</text>
+
+        <text x="0" y="215" font-family="JetBrains Mono, monospace" font-size="10" fill="#8e3d2a" font-weight="500">ORIENTATION MATTERS</text>
+        <text x="0" y="232" font-family="JetBrains Mono, monospace" font-size="10" fill="#6b7280">Brown wire faces the chassis edge.</text>
+        <text x="0" y="247" font-family="JetBrains Mono, monospace" font-size="10" fill="#6b7280">Reversed = no motion. Flip and retry.</text>
+      </g>
+
+      <line x1="20" y1="320" x2="680" y2="320" stroke="#d6c9b1" stroke-width="0.5"/>
+      <text x="20" y="330" font-family="JetBrains Mono, monospace" font-size="10" fill="#8e3d2a">●</text>
+      <text x="36" y="330" font-family="JetBrains Mono, monospace" font-size="10" fill="#1c2230">Terracotta circles = M3 expansion holes (4 ×). Every Mechanic kit screws into these.</text>
+    </svg>
+    <div class="schematic-caption">Mounting points (left) and servo cable wiring (right) — common to all four kits</div>
+  </div>
+
+  <h4>Plugging in the servo cable</h4>
+  <p>The kit comes with a servo. The servo has a cable. The cable has three coloured wires (orange, red, brown) ending in a small plug. That plug pushes onto three little pins on the chassis labelled <code>S1</code> (or <code>S2</code>). Here's exactly what it looks like:</p>
+
+  <div class="schematic">
+    <svg viewBox="0 0 680 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Close-up of servo cable plugging into the S1 socket">
+      <title>Servo cable connection close-up</title>
+      <desc>Left side shows the chassis with S1 and S2 sockets, each having three pins coloured to match the wires. Right side shows the servo with its three-wire cable. An arrow shows the cable plug going onto the pins. Below: a green panel showing the right way (brown wire on the outside) and a red panel showing the wrong way.</desc>
+
+      <text x="20" y="28" font-family="Cormorant Garamond, serif" font-size="17" fill="#1c2230" font-style="italic">Plugging the servo cable into S1 (or S2)</text>
+
+      <text x="125" y="55" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#6b7280" letter-spacing="0.1em">CHASSIS</text>
+      <rect x="40" y="65" width="170" height="180" rx="8" fill="#ebe1cf" stroke="#1c2230" stroke-width="0.9"/>
+      <line x1="210" y1="65" x2="210" y2="245" stroke="#1c2230" stroke-width="2.5"/>
+
+      <text x="55" y="90" font-family="JetBrains Mono, monospace" font-size="12" fill="#1c2230" font-weight="500">S1</text>
+      <circle cx="120" cy="100" r="7" fill="#cd7437" stroke="#1c2230" stroke-width="0.7"/>
+      <circle cx="145" cy="100" r="7" fill="#c83a3a" stroke="#1c2230" stroke-width="0.7"/>
+      <circle cx="170" cy="100" r="7" fill="#5a3a1a" stroke="#1c2230" stroke-width="0.7"/>
+      <text x="120" y="124" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#1c2230">S</text>
+      <text x="145" y="124" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#1c2230">+</text>
+      <text x="170" y="124" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#1c2230">−</text>
+
+      <text x="55" y="170" font-family="JetBrains Mono, monospace" font-size="12" fill="#1c2230" font-weight="500">S2</text>
+      <circle cx="120" cy="180" r="7" fill="#cd7437" stroke="#1c2230" stroke-width="0.7"/>
+      <circle cx="145" cy="180" r="7" fill="#c83a3a" stroke="#1c2230" stroke-width="0.7"/>
+      <circle cx="170" cy="180" r="7" fill="#5a3a1a" stroke="#1c2230" stroke-width="0.7"/>
+      <text x="120" y="204" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#1c2230">S</text>
+      <text x="145" y="204" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#1c2230">+</text>
+      <text x="170" y="204" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#1c2230">−</text>
+
+      <text x="222" y="155" font-family="JetBrains Mono, monospace" font-size="10" fill="#8e3d2a">← chassis edge</text>
+      <text x="222" y="170" font-family="JetBrains Mono, monospace" font-size="10" fill="#8e3d2a">  (outside)</text>
+
+      <path d="M 250 150 Q 320 115 380 145" fill="none" stroke="#b8523a" stroke-width="2.5" stroke-dasharray="6 4"/>
+      <polygon points="248,148 236,154 248,162" fill="#b8523a"/>
+      <text x="315" y="100" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#8e3d2a" font-weight="500">push connector</text>
+      <text x="315" y="114" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#8e3d2a" font-weight="500">straight onto pins</text>
+
+      <text x="555" y="55" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#6b7280" letter-spacing="0.1em">SERVO &amp; CABLE</text>
+
+      <rect x="395" y="125" width="60" height="48" rx="3" fill="#ebe1cf" stroke="#1c2230" stroke-width="1.4"/>
+      <rect x="402" y="135" width="48" height="28" rx="1" fill="none" stroke="#1c2230" stroke-width="0.5" stroke-dasharray="2 2"/>
+      <text x="425" y="190" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#6b7280">3-pin connector</text>
+
+      <path d="M 455 138 L 530 138" fill="none" stroke="#cd7437" stroke-width="3.5" stroke-linecap="round"/>
+      <path d="M 455 150 L 530 150" fill="none" stroke="#c83a3a" stroke-width="3.5" stroke-linecap="round"/>
+      <path d="M 455 162 L 530 162" fill="none" stroke="#5a3a1a" stroke-width="3.5" stroke-linecap="round"/>
+
+      <rect x="528" y="105" width="105" height="90" rx="4" fill="#1c2230" opacity="0.85"/>
+      <text x="580" y="155" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="15" fill="#f3ece0" font-style="italic">servo</text>
+      <circle cx="615" cy="150" r="9" fill="#ebe1cf" stroke="#1c2230" stroke-width="0.5"/>
+      <circle cx="615" cy="150" r="3" fill="#1c2230"/>
+
+      <rect x="395" y="245" width="14" height="9" rx="1" fill="#cd7437"/>
+      <text x="415" y="253" font-family="JetBrains Mono, monospace" font-size="11" fill="#1c2230">orange wire → goes to <strong>S</strong> (signal)</text>
+      <rect x="395" y="261" width="14" height="9" rx="1" fill="#c83a3a"/>
+      <text x="415" y="269" font-family="JetBrains Mono, monospace" font-size="11" fill="#1c2230">red wire → goes to <strong>+</strong> (5 V power)</text>
+      <rect x="395" y="277" width="14" height="9" rx="1" fill="#5a3a1a"/>
+      <text x="415" y="285" font-family="JetBrains Mono, monospace" font-size="11" fill="#1c2230">brown wire → goes to <strong>−</strong> (ground / chassis edge)</text>
+
+      <rect x="40" y="295" width="290" height="75" rx="6" fill="#eaf3de" stroke="#3b6d11" stroke-width="0.7"/>
+      <text x="58" y="318" font-family="JetBrains Mono, monospace" font-size="12" fill="#3b6d11" font-weight="500">✓ RIGHT — kit moves</text>
+      <text x="58" y="338" font-family="JetBrains Mono, monospace" font-size="11" fill="#1c2230">Brown on the OUTSIDE,</text>
+      <text x="58" y="354" font-family="JetBrains Mono, monospace" font-size="11" fill="#1c2230">orange toward the middle.</text>
+      <rect x="248" y="313" width="60" height="34" rx="2" fill="#ebe1cf" stroke="#1c2230" stroke-width="0.7"/>
+      <line x1="252" y1="322" x2="304" y2="322" stroke="#cd7437" stroke-width="3" stroke-linecap="round"/>
+      <line x1="252" y1="330" x2="304" y2="330" stroke="#c83a3a" stroke-width="3" stroke-linecap="round"/>
+      <line x1="252" y1="338" x2="304" y2="338" stroke="#5a3a1a" stroke-width="3" stroke-linecap="round"/>
+
+      <rect x="350" y="295" width="290" height="75" rx="6" fill="#fceaea" stroke="#a32d2d" stroke-width="0.7"/>
+      <text x="368" y="318" font-family="JetBrains Mono, monospace" font-size="12" fill="#a32d2d" font-weight="500">✗ WRONG — kit will not move</text>
+      <text x="368" y="338" font-family="JetBrains Mono, monospace" font-size="11" fill="#1c2230">Cable flipped. No damage —</text>
+      <text x="368" y="354" font-family="JetBrains Mono, monospace" font-size="11" fill="#1c2230">just pull off, rotate 180°, retry.</text>
+      <rect x="556" y="313" width="60" height="34" rx="2" fill="#ebe1cf" stroke="#1c2230" stroke-width="0.7"/>
+      <line x1="560" y1="322" x2="612" y2="322" stroke="#5a3a1a" stroke-width="3" stroke-linecap="round"/>
+      <line x1="560" y1="330" x2="612" y2="330" stroke="#c83a3a" stroke-width="3" stroke-linecap="round"/>
+      <line x1="560" y1="338" x2="612" y2="338" stroke="#cd7437" stroke-width="3" stroke-linecap="round"/>
+    </svg>
+    <div class="schematic-caption">Servo connection · brown wire matches the chassis-edge pin labelled <strong>−</strong></div>
+  </div>
+
+  <p><strong>The 30-second instruction:</strong> hold the cable plug in front of the chassis sockets. Match the colours: <span style="color:#cd7437;font-weight:500">orange</span> goes to the inside pin, <span style="color:#c83a3a;font-weight:500">red</span> to the middle, <span style="color:#5a3a1a;font-weight:500">brown</span> to the outside. Push it on gently. <em>If the kit doesn't move when you run code, the plug is on backwards</em> — pull it off, turn it around, push it back. You can't break anything by getting it wrong.</p>
+
+  <h4>Plugging in the SR04 ultrasonic sensor</h4>
+  <p>If your kit needs distance-sensing (the Push kit, or any obstacle-avoidance activity), you'll be plugging in the SR04 — the small board with two round "eyes" on it. The eyes are how it sees: one sends a pulse of sound, the other listens for the echo. The board has four pins on the bottom that slide into a matching socket on the front of the chassis.</p>
+
+  <div class="schematic">
+    <svg viewBox="0 0 680 540" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="How to plug the SR04 ultrasonic sensor into the chassis front">
+      <title>SR04 sensor connection — vertical layout</title>
+      <desc>Top section shows the SR04 sensor face-on with two transducer eyes and four pins coming out the bottom labelled VCC, Trig, Echo, GND. A large down arrow points toward the chassis section below, where four matching holes sit at the exact same horizontal positions as the pins above. The sensor pushes straight down so each pin enters the matching hole. Below the diagram, a right-way and wrong-way panel explain what to do if it does not fit.</desc>
+
+      <text x="20" y="28" font-family="Cormorant Garamond, serif" font-size="17" fill="#1c2230" font-style="italic">Plugging the SR04 onto the chassis · pins above ↓ holes below</text>
+
+      <text x="340" y="58" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#6b7280" letter-spacing="0.14em" font-weight="500">1 · HOLD THE SENSOR</text>
+
+      <rect x="170" y="78" width="340" height="112" rx="4" fill="#2f6b6e" stroke="#1c2230" stroke-width="1"/>
+      <text x="340" y="100" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#cde8df" letter-spacing="0.05em">two transducer eyes</text>
+
+      <circle cx="245" cy="138" r="34" fill="#c5c8cc" stroke="#1c2230" stroke-width="1"/>
+      <circle cx="245" cy="138" r="24" fill="#9fa3a7" stroke="#1c2230" stroke-width="0.4"/>
+      <circle cx="245" cy="138" r="14" fill="#7d8084" stroke="none"/>
+      <text x="245" y="142" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#fff" font-weight="500">T</text>
+
+      <circle cx="435" cy="138" r="34" fill="#c5c8cc" stroke="#1c2230" stroke-width="1"/>
+      <circle cx="435" cy="138" r="24" fill="#9fa3a7" stroke="#1c2230" stroke-width="0.4"/>
+      <circle cx="435" cy="138" r="14" fill="#7d8084" stroke="none"/>
+      <text x="435" y="142" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#fff" font-weight="500">R</text>
+
+      <line x1="510" y1="138" x2="548" y2="138" stroke="#b8523a" stroke-width="1.8"/>
+      <polygon points="554,138 542,132 542,144" fill="#b8523a"/>
+      <text x="558" y="128" font-family="JetBrains Mono, monospace" font-size="11" fill="#8e3d2a" font-weight="500">eyes face</text>
+      <text x="558" y="142" font-family="JetBrains Mono, monospace" font-size="11" fill="#8e3d2a" font-weight="500">FORWARD</text>
+      <text x="558" y="158" font-family="JetBrains Mono, monospace" font-size="9" fill="#6b7280">= where wheels</text>
+      <text x="558" y="170" font-family="JetBrains Mono, monospace" font-size="9" fill="#6b7280">  point</text>
+
+      <line x1="260" y1="190" x2="260" y2="222" stroke="#1c2230" stroke-width="3.5" stroke-linecap="round"/>
+      <line x1="320" y1="190" x2="320" y2="222" stroke="#1c2230" stroke-width="3.5" stroke-linecap="round"/>
+      <line x1="380" y1="190" x2="380" y2="222" stroke="#1c2230" stroke-width="3.5" stroke-linecap="round"/>
+      <line x1="440" y1="190" x2="440" y2="222" stroke="#1c2230" stroke-width="3.5" stroke-linecap="round"/>
+
+      <text x="260" y="240" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#1c2230" font-weight="500">VCC</text>
+      <text x="320" y="240" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#1c2230" font-weight="500">Trig</text>
+      <text x="380" y="240" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#1c2230" font-weight="500">Echo</text>
+      <text x="440" y="240" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#1c2230" font-weight="500">GND</text>
+
+      <text x="155" y="217" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="10" fill="#6b7280">4 pins ↓</text>
+
+      <line x1="350" y1="265" x2="350" y2="320" stroke="#b8523a" stroke-width="5" stroke-linecap="round"/>
+      <polygon points="350,335 328,308 372,308" fill="#b8523a"/>
+      <text x="395" y="298" font-family="JetBrains Mono, monospace" font-size="13" fill="#8e3d2a" font-weight="500">2 · push the sensor</text>
+      <text x="395" y="316" font-family="JetBrains Mono, monospace" font-size="13" fill="#8e3d2a" font-weight="500">    straight DOWN</text>
+      <text x="305" y="298" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="10" fill="#0f6e56">pins line up</text>
+      <text x="305" y="312" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="10" fill="#0f6e56">with holes</text>
+      <text x="305" y="326" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="10" fill="#0f6e56">automatically</text>
+
+      <text x="340" y="365" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#6b7280" letter-spacing="0.14em" font-weight="500">3 · INTO THE SOCKET</text>
+
+      <rect x="100" y="380" width="480" height="92" rx="6" fill="#ebe1cf" stroke="#1c2230" stroke-width="1"/>
+
+      <text x="120" y="397" font-family="JetBrains Mono, monospace" font-size="9" fill="#8e3d2a">↑ front edge of robot (eyes will end up pointing this way)</text>
+
+      <rect x="220" y="408" width="240" height="46" rx="4" fill="#1c2230" opacity="0.18" stroke="#1c2230" stroke-width="0.9"/>
+      <circle cx="260" cy="431" r="9" fill="#fff" stroke="#1c2230" stroke-width="1"/>
+      <circle cx="320" cy="431" r="9" fill="#fff" stroke="#1c2230" stroke-width="1"/>
+      <circle cx="380" cy="431" r="9" fill="#fff" stroke="#1c2230" stroke-width="1"/>
+      <circle cx="440" cy="431" r="9" fill="#fff" stroke="#1c2230" stroke-width="1"/>
+
+      <text x="566" y="437" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="9" fill="#6b7280">4-pin socket</text>
+
+      <text x="260" y="488" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#1c2230" font-weight="500">VCC</text>
+      <text x="320" y="488" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#1c2230" font-weight="500">Trig</text>
+      <text x="380" y="488" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#1c2230" font-weight="500">Echo</text>
+      <text x="440" y="488" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#1c2230" font-weight="500">GND</text>
+
+      <line x1="260" y1="248" x2="260" y2="265" stroke="#0f6e56" stroke-width="0.6" stroke-dasharray="3 2" opacity="0.4"/>
+      <line x1="260" y1="345" x2="260" y2="408" stroke="#0f6e56" stroke-width="0.6" stroke-dasharray="3 2" opacity="0.4"/>
+      <line x1="320" y1="248" x2="320" y2="265" stroke="#0f6e56" stroke-width="0.6" stroke-dasharray="3 2" opacity="0.4"/>
+      <line x1="320" y1="345" x2="320" y2="408" stroke="#0f6e56" stroke-width="0.6" stroke-dasharray="3 2" opacity="0.4"/>
+      <line x1="380" y1="248" x2="380" y2="265" stroke="#0f6e56" stroke-width="0.6" stroke-dasharray="3 2" opacity="0.4"/>
+      <line x1="380" y1="345" x2="380" y2="408" stroke="#0f6e56" stroke-width="0.6" stroke-dasharray="3 2" opacity="0.4"/>
+      <line x1="440" y1="248" x2="440" y2="265" stroke="#0f6e56" stroke-width="0.6" stroke-dasharray="3 2" opacity="0.4"/>
+      <line x1="440" y1="345" x2="440" y2="408" stroke="#0f6e56" stroke-width="0.6" stroke-dasharray="3 2" opacity="0.4"/>
+
+      <rect x="40" y="510" width="290" height="22" rx="4" fill="#eaf3de" stroke="#3b6d11" stroke-width="0.7"/>
+      <text x="55" y="525" font-family="JetBrains Mono, monospace" font-size="11" fill="#3b6d11" font-weight="500">✓ slides on with no force = right way</text>
+
+      <rect x="350" y="510" width="290" height="22" rx="4" fill="#fceaea" stroke="#a32d2d" stroke-width="0.7"/>
+      <text x="365" y="525" font-family="JetBrains Mono, monospace" font-size="11" fill="#a32d2d" font-weight="500">✗ resists or sits crooked = lift, rotate 180°</text>
+    </svg>
+    <div class="schematic-caption">Pins above ↓ line up with holes below · same labels in the same order</div>
+  </div>
+
+  <p><strong>The 30-second instruction:</strong> hold the SR04 with the two round eyes pointing forwards (same direction the robot drives). Line up the four pins with the four holes on the chassis socket. Push down gently. <em>It should slide on without any force.</em> If you have to push hard, you've got it backwards — lift it straight up, turn it 180°, and try again. You will not break it.</p>
+
+  <div class="callout">
+    <div class="callout-label">If it still doesn't work after both cables are in</div>
+    <p>Three things to check, in order: <strong>(1)</strong> Is the chassis power switch ON? The micro:bit lights up from USB even when the switch is off — but the motors and servo need the chassis switch. <strong>(2)</strong> Are batteries fresh? Below ≈ 3.6 V the servo gets sluggish and the motors slow down. <strong>(3)</strong> Did you centre the servo at 90° <em>before</em> attaching the moving arm? If not, the arm is fighting a hard mechanical stop — power off, detach the arm, re-centre, re-attach.</p>
+  </div>
+
+  <h4>Tools you need (the same every time)</h4>
+  <ul class="refined">
+    <li><strong>Phillips / cross-head screwdriver</strong>, small (PH00 or PH0 size). One ships in each kit but a workshop screwdriver is faster.</li>
+    <li><strong>The micro:bit</strong> with a known-working program loaded — you'll use it to centre the servo at 90° before mounting. A "blink and hold S1 at 90" 5-line program is enough.</li>
+    <li><strong>The chassis itself</strong>, batteries removed and power switch <em>off</em>.</li>
+    <li><strong>About 15 minutes</strong> for a first-time build, 5 minutes once you've done it.</li>
+  </ul>
+
+  <h4>Pre-flight checklist (do this once, applies to all four kits)</h4>
+  <ol class="steps">
+    <li><strong>Power off completely.</strong> Slide switch off, remove the AAA batteries. Mounting kits with the chassis live is how gears get stripped.</li>
+    <li><strong>Remove the micro:bit</strong> from its slot. You'll re-insert it after the kit is bolted on, with a centring program ready to flash.</li>
+    <li><strong>Identify the four M3 expansion holes</strong> on the top deck (terracotta circles in the diagram above). They form a small rectangular pattern around the servo terminal area.</li>
+    <li><strong>Centre the servo at 90° before fixing the moving arm.</strong> Re-insert the micro:bit, run a one-line program <code>maqueen.servoRun(maqueen.Servos.S1, 90)</code>, watch the servo settle, then power off again. <em>Now</em> attach the kit's arm/jaw/mast onto the spline.</li>
+    <li><strong>Connect the servo cable to S1 (or S2)</strong>, brown wire toward the chassis edge. If the kit doesn't move when you run code, this is the first thing to flip.</li>
+    <li><strong>Test the full range slowly</strong> with hand-held angles (e.g. <code>servoRun(S1, 30)</code>, then <code>servoRun(S1, 150)</code>) before committing the kit to a real program. Listen for the servo buzzing — that's the sign you've gone past a mechanical limit.</li>
+  </ol>
+
+  <h3>🍴 Forklift &mdash; <a href="https://wiki.dfrobot.com/rob0156-f/" target="_blank" rel="noopener">ROB0156-F</a> · <a href="https://github.com/May-DFRobot/DFRobot/blob/master/ROB0156-F-Tutorial%20of%20Maqueen%20Mechanic%20-%20Forklift-EN.pdf" target="_blank" rel="noopener">📄 Tutorial PDF</a></h3>
+
+  <div class="schematic">
+    <svg viewBox="0 0 600 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Forklift kit side view">
+      <text x="20" y="22" font-family="Cormorant Garamond, serif" font-size="15" fill="#1c2230" font-style="italic">Side view — mast at front, fork plate at the bottom</text>
+
+      <rect x="120" y="160" width="200" height="22" rx="3" fill="#ebe1cf" stroke="#1c2230" stroke-width="0.9"/>
+      <circle cx="150" cy="190" r="14" fill="#1c2230" opacity="0.85"/>
+      <circle cx="290" cy="190" r="14" fill="#1c2230" opacity="0.85"/>
+
+      <rect x="320" y="65" width="14" height="115" fill="#1c2230" opacity="0.7"/>
+      <rect x="334" y="160" width="60" height="8" fill="#1c2230"/>
+      <rect x="334" y="172" width="60" height="8" fill="#1c2230"/>
+
+      <rect x="304" y="155" width="20" height="20" rx="2" fill="#b8523a" stroke="#1c2230" stroke-width="0.7"/>
+      <text x="314" y="168" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="#fff">S</text>
+
+      <line x1="314" y1="155" x2="327" y2="80" stroke="#b8523a" stroke-width="1.4" stroke-linecap="round"/>
+      <circle cx="327" cy="80" r="3" fill="#b8523a"/>
+
+      <line x1="420" y1="80" x2="420" y2="160" stroke="#b8523a" stroke-width="1.2" stroke-dasharray="4 3"/>
+      <polygon points="420,76 416,84 424,84" fill="#b8523a"/>
+      <polygon points="420,164 416,156 424,156" fill="#b8523a"/>
+      <text x="430" y="125" font-family="JetBrains Mono, monospace" font-size="10" fill="#8e3d2a">≈ 45 mm</text>
+
+      <line x1="327" y1="80" x2="510" y2="50" stroke="#1c2230" stroke-width="0.4" stroke-dasharray="2 2"/>
+      <text x="514" y="53" font-family="JetBrains Mono, monospace" font-size="10" fill="#1c2230">linkage arm</text>
+
+      <line x1="327" y1="65" x2="510" y2="30" stroke="#1c2230" stroke-width="0.4" stroke-dasharray="2 2"/>
+      <text x="514" y="33" font-family="JetBrains Mono, monospace" font-size="10" fill="#1c2230">mast</text>
+
+      <line x1="364" y1="174" x2="510" y2="170" stroke="#1c2230" stroke-width="0.4" stroke-dasharray="2 2"/>
+      <text x="514" y="173" font-family="JetBrains Mono, monospace" font-size="10" fill="#1c2230">fork plate</text>
+
+      <line x1="314" y1="175" x2="510" y2="200" stroke="#1c2230" stroke-width="0.4" stroke-dasharray="2 2"/>
+      <text x="514" y="203" font-family="JetBrains Mono, monospace" font-size="10" fill="#b8523a">servo (S1)</text>
+
+      <line x1="220" y1="160" x2="220" y2="225" stroke="#1c2230" stroke-width="0.4" stroke-dasharray="2 2"/>
+      <text x="220" y="234" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#6b7280">chassis</text>
+    </svg>
+    <div class="schematic-caption">Forklift profile · arrow shows fork travel range, terracotta = active servo + linkage</div>
+  </div>
+
+  <h4>What's in the box</h4>
+  <p class="meta">DFRobot's official shipping list for <a href="https://www.dfrobot.com/product-2129.html" target="_blank" rel="noopener">ROB0156-F</a>:</p>
+  <ul class="refined">
+    <li>1 × 9 g Metal Gear Servo (with output horn)</li>
+    <li>1 × Metal Arm Servo Base</li>
+    <li>1 × Metal Arm Baseplate</li>
+    <li>3 × Metal Arm Linkages (drive the fork plate)</li>
+    <li>1 × Metal Arm Plate</li>
+    <li>1 × Metal Servo Arm Linkage</li>
+    <li>1 × Metal Forklift Plate (the part that does the lifting)</li>
+    <li>2 × M3 × 15 mm copper pillars (the mast structure)</li>
+    <li>5 × M2.5 × 5 mm screws</li>
+    <li>18 × M3 × 5 mm screws</li>
+    <li>1 × small Phillips screwdriver</li>
+  </ul>
+
+  <h4>Assembly — step by step</h4>
+  <ol class="steps">
+    <li>Complete the <strong>pre-flight checklist</strong> above (power off, micro:bit out, servo centred at 90°, then power off again).</li>
+    <li><strong>Bolt the servo to the metal connection plate</strong> using the two small screws that come pre-fitted in the servo body. Orientation: servo spline shaft points <em>upward</em> when the plate is laid flat.</li>
+    <li><strong>Bolt the connection plate to the chassis top deck</strong> through the four M3 expansion holes (terracotta circles in the universal diagram). The plate determines orientation — there is only one correct way; if it doesn't sit flat, flip it.</li>
+    <li><strong>Slide the upper rotating arm onto the servo spline</strong>. The spline is splined (28 teeth on a typical 12 g metal servo) — push straight down, do not rotate the servo. Once seated, secure with the small horn screw through the centre.</li>
+    <li><strong>Bolt the vertical mast in front of the servo plate</strong>. The mast carries the linkage pivots; it does not move during operation.</li>
+    <li><strong>Connect the two linkage arms</strong> between the upper rotating arm (top) and the fork plate (bottom). The pin-jointed pivots should rotate freely; if they bind, loosen by half a turn.</li>
+    <li><strong>Bolt the fork plate to the lower ends of the linkage arms</strong>. The plate should sit horizontal when the rotating arm is at 90°.</li>
+    <li><strong>Route the servo cable</strong> across the top of the chassis and into S1 (or S2). Brown wire faces the chassis edge.</li>
+    <li><strong>Re-insert the micro:bit</strong>, install batteries, power on.</li>
+    <li><strong>Verify with hand-tested angles</strong>: <code>servoRun(S1, 90)</code> should hold the fork at mid-height. <code>servoRun(S1, 35)</code> drops it to the ground. <code>servoRun(S1, 140)</code> raises it. If any of these strain the servo, calibrate (next section) before going further.</li>
+  </ol>
+
+  <p><strong>Mechanism.</strong> A vertical mast bolted to the front of the chassis carries a two-piece arm linkage. The servo (mounted at the base of the mast) rotates an inner arm, which through the linkage raises or lowers a horizontal fork plate at the front. The fork is the longest moving part of any kit — between 40 and 50 mm of vertical travel.</p>
+  <p><strong>What it teaches.</strong> Mechanical advantage, lever arms, the cost of a heavy load on a lightweight chassis (the centre of gravity shifts forward as the fork rises with cargo, lifting the rear sensors off the floor). Excellent for first-time programming of "states": pick up → drive → drop.</p>
+  <p><strong>Calibration.</strong> Two angles to find:</p>
+  <ul class="refined">
+    <li><code>FORK_DOWN</code> — the angle where the fork plate sits flat on the floor, ready to slide under a pallet. Typically around 30–40°.</li>
+    <li><code>FORK_UP</code> — the angle where the fork plate is fully raised, payload clear of the ground. Typically around 130–150°.</li>
+  </ul>
+  <div class="code-block">
+    <div class="code-header"><span>JavaScript · forklift cycle</span><button class="copy-btn">Copy</button></div>
+<pre><span class="tok-k">const</span> FORK_DOWN = <span class="tok-n">35</span>
+<span class="tok-k">const</span> FORK_UP   = <span class="tok-n">140</span>
+
+<span class="tok-c">// Pick up, drive, drop, return</span>
+maqueen.<span class="tok-fn">servoRun</span>(maqueen.Servos.S1, FORK_DOWN);  basic.<span class="tok-fn">pause</span>(<span class="tok-n">600</span>)
+maqueen.<span class="tok-fn">motorRun</span>(maqueen.Motors.All, maqueen.Dir.CW, <span class="tok-n">100</span>); basic.<span class="tok-fn">pause</span>(<span class="tok-n">300</span>)
+maqueen.<span class="tok-fn">motorStop</span>(maqueen.Motors.All)
+maqueen.<span class="tok-fn">servoRun</span>(maqueen.Servos.S1, FORK_UP);    basic.<span class="tok-fn">pause</span>(<span class="tok-n">800</span>)
+maqueen.<span class="tok-fn">motorRun</span>(maqueen.Motors.All, maqueen.Dir.CW, <span class="tok-n">100</span>); basic.<span class="tok-fn">pause</span>(<span class="tok-n">1500</span>)
+maqueen.<span class="tok-fn">motorStop</span>(maqueen.Motors.All)
+maqueen.<span class="tok-fn">servoRun</span>(maqueen.Servos.S1, FORK_DOWN);  basic.<span class="tok-fn">pause</span>(<span class="tok-n">800</span>)
+maqueen.<span class="tok-fn">motorRun</span>(maqueen.Motors.All, maqueen.Dir.CCW, <span class="tok-n">100</span>); basic.<span class="tok-fn">pause</span>(<span class="tok-n">1500</span>)
+maqueen.<span class="tok-fn">motorStop</span>(maqueen.Motors.All)</pre>
+  </div>
+  <p><strong>Activity ideas.</strong> Warehouse pallet sort by colour (with line sensors picking up coloured tracks); stack a tower three blocks high; race against a stopwatch to move N items between zones; "factory line" where each Maqueen has one job in a chain; combine with the GamePad for tele-operated forklift driving.</p>
+
+  <h3>🚜 Loader &mdash; <a href="https://wiki.dfrobot.com/rob0156-l/" target="_blank" rel="noopener">ROB0156-L</a> · <a href="https://github.com/DFRobot/ROB0156-L-Tutorial-of-Maqueen-Mechanic-Loader-EN/blob/master/ROB0156-L-Tutorial%20of%20Maqueen%20Mechanic-Loader-EN.pdf" target="_blank" rel="noopener">📄 Tutorial PDF</a></h3>
+
+  <div class="schematic">
+    <svg viewBox="0 0 600 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Loader kit side view">
+      <text x="20" y="22" font-family="Cormorant Garamond, serif" font-size="15" fill="#1c2230" font-style="italic">Side view — single arm pivots up from chassis to lift the bucket</text>
+
+      <rect x="120" y="160" width="200" height="22" rx="3" fill="#ebe1cf" stroke="#1c2230" stroke-width="0.9"/>
+      <circle cx="150" cy="190" r="14" fill="#1c2230" opacity="0.85"/>
+      <circle cx="290" cy="190" r="14" fill="#1c2230" opacity="0.85"/>
+
+      <rect x="305" y="155" width="22" height="22" rx="2" fill="#b8523a" stroke="#1c2230" stroke-width="0.7"/>
+      <text x="316" y="169" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="#fff">S</text>
+      <circle cx="316" cy="166" r="3" fill="#fff" stroke="#1c2230" stroke-width="0.5"/>
+
+      <line x1="316" y1="166" x2="430" y2="90" stroke="#1c2230" stroke-width="3" stroke-linecap="round"/>
+
+      <path d="M 425 78 Q 455 80 460 105 Q 455 122 432 118 Z" fill="#1c2230" opacity="0.85" stroke="#1c2230" stroke-width="0.5"/>
+      <path d="M 432 118 L 422 96" fill="none" stroke="#1c2230" stroke-width="0.5"/>
+
+      <path d="M 380 130 Q 410 70 460 60" fill="none" stroke="#b8523a" stroke-width="1.2" stroke-dasharray="4 3"/>
+      <polygon points="455,55 462,63 468,55" fill="#b8523a"/>
+      <text x="376" y="148" font-family="JetBrains Mono, monospace" font-size="10" fill="#8e3d2a">arc of motion</text>
+
+      <line x1="316" y1="180" x2="510" y2="210" stroke="#1c2230" stroke-width="0.4" stroke-dasharray="2 2"/>
+      <text x="514" y="213" font-family="JetBrains Mono, monospace" font-size="10" fill="#b8523a">servo / pivot (S1)</text>
+
+      <line x1="370" y1="125" x2="510" y2="125" stroke="#1c2230" stroke-width="0.4" stroke-dasharray="2 2"/>
+      <text x="514" y="128" font-family="JetBrains Mono, monospace" font-size="10" fill="#1c2230">single arm</text>
+
+      <line x1="450" y1="98" x2="510" y2="80" stroke="#1c2230" stroke-width="0.4" stroke-dasharray="2 2"/>
+      <text x="514" y="83" font-family="JetBrains Mono, monospace" font-size="10" fill="#1c2230">bucket / scoop</text>
+
+      <line x1="220" y1="160" x2="220" y2="225" stroke="#1c2230" stroke-width="0.4" stroke-dasharray="2 2"/>
+      <text x="220" y="234" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#6b7280">chassis</text>
+    </svg>
+    <div class="schematic-caption">Loader profile · arm pivots in an arc from low (scoop down) to high (carry)</div>
+  </div>
+
+  <h4>What's in the box</h4>
+  <p class="meta">DFRobot's official shipping list for <a href="https://www.dfrobot.com/product-2006.html" target="_blank" rel="noopener">ROB0156-L</a>:</p>
+  <ul class="refined">
+    <li>1 × 9 g Metal Gear Servo</li>
+    <li>1 × Metal Shovel (the bucket / scoop on the end of the arm)</li>
+    <li>1 × Metal Servo Mounting Plate</li>
+    <li>2 × M3 × 15 mm copper pillars</li>
+    <li>5 × M2.5 × 5 mm screws</li>
+    <li>8 × M3 × 5 mm screws</li>
+    <li>1 × small Phillips screwdriver (while stocks last)</li>
+  </ul>
+
+  <h4>Assembly — step by step</h4>
+  <ol class="steps">
+    <li>Complete the <strong>pre-flight checklist</strong> (power off, micro:bit out, servo centred at 90°, power off again).</li>
+    <li><strong>Bolt the servo to its connection plate</strong> using the two small servo-body screws.</li>
+    <li><strong>Mount the connection plate</strong> on the front-half mounting holes of the chassis top deck. The plate orientation places the servo spline at the very front of the robot.</li>
+    <li><strong>Slide the arm onto the servo spline</strong>, pointing the free end of the arm <em>up and forward</em>. With the servo centred at 90°, the arm should sit at roughly a 60° angle from horizontal.</li>
+    <li><strong>Secure the arm to the spline</strong> with the horn screw through the centre. Tug gently to confirm it's seated.</li>
+    <li><strong>Bolt the bucket to the free end of the arm</strong>. The bucket lip should face forward when the arm is at mid-position; the rear of the bucket should not collide with the chassis at any angle in the working range (test by hand).</li>
+    <li><strong>Connect the servo cable to S1</strong> (brown wire toward the chassis edge).</li>
+    <li><strong>Re-insert the micro:bit</strong>, install batteries, power on.</li>
+    <li><strong>Verify the working range</strong>: <code>servoRun(S1, 30)</code> drops the bucket lip to the floor; <code>servoRun(S1, 150)</code> raises it clear of the chassis. Anywhere in between holds. If the bucket fouls the chassis at the high end, raise <code>SCOOP_DOWN</code> by 5° at a time.</li>
+  </ol>
+
+  <p><strong>Mechanism.</strong> Single pivoting arm at the front of the chassis with a curved metal scoop on its end. The servo rotates the arm directly — no linkage. Simpler than the forklift, with less travel but more torque per degree.</p>
+  <p><strong>What it teaches.</strong> Single-degree-of-freedom rotation, scooping mechanics (angle of attack matters for filling vs spilling), the difference between active and passive grip — the loader can only carry what gravity holds in the bucket. Pairs naturally with sand, marbles, foam balls.</p>
+  <p><strong>Calibration.</strong> Two angles:</p>
+  <ul class="refined">
+    <li><code>SCOOP_DOWN</code> — bucket lip touches the ground, ready to scoop. Around 25–35°.</li>
+    <li><code>SCOOP_UP</code> — bucket fully raised and tilted back so cargo doesn't fall out. Around 140–160°.</li>
+  </ul>
+  <div class="code-block">
+    <div class="code-header"><span>JavaScript · loader scoop &amp; carry</span><button class="copy-btn">Copy</button></div>
+<pre><span class="tok-k">const</span> SCOOP_DOWN = <span class="tok-n">30</span>
+<span class="tok-k">const</span> SCOOP_UP   = <span class="tok-n">150</span>
+<span class="tok-k">const</span> DUMP        = <span class="tok-n">40</span>   <span class="tok-c">// tip forward to release</span>
+
+<span class="tok-c">// Drive into a pile, scoop, raise, carry, dump</span>
+maqueen.<span class="tok-fn">servoRun</span>(maqueen.Servos.S1, SCOOP_DOWN); basic.<span class="tok-fn">pause</span>(<span class="tok-n">500</span>)
+maqueen.<span class="tok-fn">motorRun</span>(maqueen.Motors.All, maqueen.Dir.CW, <span class="tok-n">120</span>); basic.<span class="tok-fn">pause</span>(<span class="tok-n">600</span>)
+maqueen.<span class="tok-fn">motorStop</span>(maqueen.Motors.All)
+maqueen.<span class="tok-fn">servoRun</span>(maqueen.Servos.S1, SCOOP_UP);   basic.<span class="tok-fn">pause</span>(<span class="tok-n">700</span>)
+maqueen.<span class="tok-fn">motorRun</span>(maqueen.Motors.All, maqueen.Dir.CCW, <span class="tok-n">100</span>); basic.<span class="tok-fn">pause</span>(<span class="tok-n">2000</span>)
+maqueen.<span class="tok-fn">motorStop</span>(maqueen.Motors.All)
+maqueen.<span class="tok-fn">servoRun</span>(maqueen.Servos.S1, DUMP);       basic.<span class="tok-fn">pause</span>(<span class="tok-n">600</span>)</pre>
+  </div>
+  <p><strong>Activity ideas.</strong> Sand-pit clearing race; "engineering rescue" — clear debris off a track; volume measurement (how many scoops to move 100 g of foam pellets); compare two student-tuned <code>SCOOP_DOWN</code> angles head-to-head to make calibration tangible; weight-class loading (which loads slow the robot most).</p>
+
+  <h3>🪲 Beetle gripper &mdash; <a href="https://wiki.dfrobot.com/ROB0156-B/" target="_blank" rel="noopener">ROB0156-B</a> · <a href="https://github.com/DFRobot/Tutorial_of_Maqueen_Mechanic_Beetle_EN/blob/master/ROB0156-B-Tutorial%20of%20Maqueen%20Mechanic-Beetle-EN.pdf" target="_blank" rel="noopener">📄 Tutorial PDF</a></h3>
+
+  <div class="schematic">
+    <svg viewBox="0 0 600 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Beetle gripper top view">
+      <text x="20" y="22" font-family="Cormorant Garamond, serif" font-size="15" fill="#1c2230" font-style="italic">Top view — two jaws driven by a single servo via scissor linkage</text>
+
+      <path d="M 100 80 Q 100 70 110 70 L 240 70 L 250 80 L 250 160 L 240 170 L 110 170 Q 100 170 100 160 Z" fill="#ebe1cf" stroke="#1c2230" stroke-width="0.9"/>
+      <text x="175" y="125" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#6b7280">chassis (front edge ↓)</text>
+
+      <rect x="245" y="105" width="22" height="30" rx="2" fill="#b8523a" stroke="#1c2230" stroke-width="0.7"/>
+      <text x="256" y="124" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="#fff">S</text>
+
+      <line x1="265" y1="120" x2="320" y2="120" stroke="#1c2230" stroke-width="2" stroke-linecap="round"/>
+
+      <line x1="320" y1="120" x2="370" y2="80" stroke="#b8523a" stroke-width="1.2" stroke-linecap="round"/>
+      <line x1="320" y1="120" x2="370" y2="160" stroke="#b8523a" stroke-width="1.2" stroke-linecap="round"/>
+      <circle cx="320" cy="120" r="3" fill="#1c2230"/>
+
+      <line x1="370" y1="80" x2="450" y2="65" stroke="#1c2230" stroke-width="3" stroke-linecap="round"/>
+      <line x1="370" y1="160" x2="450" y2="175" stroke="#1c2230" stroke-width="3" stroke-linecap="round"/>
+
+      <path d="M 445 60 L 460 56 L 462 68 L 450 70 Z" fill="#1c2230"/>
+      <path d="M 445 180 L 460 184 L 462 172 L 450 170 Z" fill="#1c2230"/>
+
+      <line x1="370" y1="80" x2="370" y2="160" stroke="#8e3d2a" stroke-width="0.5" stroke-dasharray="3 2"/>
+      <text x="378" y="124" font-family="JetBrains Mono, monospace" font-size="10" fill="#8e3d2a">jaws<tspan x="378" dy="13">close ⇄ open</tspan></text>
+
+      <line x1="256" y1="135" x2="510" y2="155" stroke="#1c2230" stroke-width="0.4" stroke-dasharray="2 2"/>
+      <text x="514" y="158" font-family="JetBrains Mono, monospace" font-size="10" fill="#b8523a">servo (S1)</text>
+
+      <line x1="345" y1="100" x2="510" y2="60" stroke="#1c2230" stroke-width="0.4" stroke-dasharray="2 2"/>
+      <text x="514" y="63" font-family="JetBrains Mono, monospace" font-size="10" fill="#b8523a">scissor linkage</text>
+
+      <line x1="450" y1="65" x2="510" y2="30" stroke="#1c2230" stroke-width="0.4" stroke-dasharray="2 2"/>
+      <text x="514" y="33" font-family="JetBrains Mono, monospace" font-size="10" fill="#1c2230">jaw (×2)</text>
+    </svg>
+    <div class="schematic-caption">Beetle from above · servo drives one side of the scissor; the linkage forces a mirrored second jaw</div>
+  </div>
+
+  <h4>What's in the box</h4>
+  <p class="meta">DFRobot's official shipping list for <a href="https://www.dfrobot.com/product-2128.html" target="_blank" rel="noopener">ROB0156-B</a>:</p>
+  <ul class="refined">
+    <li>1 × 9 g Metal Gear Servo</li>
+    <li>2 × Metal Gripper Upper Arm (the two outer jaws)</li>
+    <li>1 × Metal Gripper Driven Forearm (the linkage on the passive side)</li>
+    <li>1 × Metal Gripper Servo Forearm (the linkage on the servo-driven side)</li>
+    <li>1 × Metal Gripper Panel</li>
+    <li>1 × Metal Gripper Bottom Panel</li>
+    <li>2 × M3 × 15 mm copper pillars</li>
+    <li>3 × M3 × 17 mm copper pillars</li>
+    <li>5 × M2.5 × 5 mm screws</li>
+    <li>20 × M3 × 5 mm screws</li>
+  </ul>
+
+  <h4>Assembly — step by step</h4>
+  <ol class="steps">
+    <li>Complete the <strong>pre-flight checklist</strong> (servo centred at 90°, power off).</li>
+    <li><strong>Bolt the servo to the front-mounting plate</strong>. The plate is shaped to extend the gripper beyond the chassis edge.</li>
+    <li><strong>Mount the plate to the chassis top deck</strong> through the front pair of M3 expansion holes. Servo spline points <em>upward</em>.</li>
+    <li><strong>Attach the active (driven) jaw to the servo horn</strong>. With the servo at 90°, the active jaw should point straight forward.</li>
+    <li><strong>Pin the passive jaw to its pivot point on the plate</strong>. There is one fixed pivot just opposite the servo position; the passive jaw rotates around it freely.</li>
+    <li><strong>Connect the two scissor linkage arms</strong> between the jaws. Each linkage arm crosses to the opposite jaw and pivots at both ends — the X-pattern is what couples the two jaws into mirrored motion.</li>
+    <li><strong>Test the range by hand</strong> before powering on: gently move the active jaw and confirm the passive jaw moves in the opposite direction. Both should sweep through ~50° without binding.</li>
+    <li><strong>Tighten the horn screw</strong> on the servo spline.</li>
+    <li><strong>Connect the servo cable to S1</strong> (brown wire toward the chassis edge).</li>
+    <li><strong>Re-insert the micro:bit</strong>, batteries in, power on.</li>
+    <li><strong>Verify with deliberate angles</strong>: <code>servoRun(S1, 30)</code> opens the jaws wide; <code>servoRun(S1, 110)</code> closes them. <em>Listen for buzzing</em> as you close — a strained servo means the closed angle is too aggressive; back off in 5° increments until silent.</li>
+  </ol>
+
+  <p><strong>Mechanism.</strong> Two jaw arms attached to a scissor linkage. The servo rotates one jaw; the linkage forces the second jaw into a mirrored motion, so they open and close symmetrically. Range is small (typically 30–50 mm of jaw separation) but the grip is positive — the object is actively held, not just balanced.</p>
+  <p><strong>What it teaches.</strong> Grip force vs grip width (small angle changes = big grip-pressure differences), end-effector design, the universal challenge of pick-and-place: <em>knowing</em> where the object is. Often paired with line sensors (drive over a colour patch, then grip).</p>
+  <p><strong>Calibration.</strong> The most sensitive of the four kits — recalibrate per object size:</p>
+  <ul class="refined">
+    <li><code>JAWS_OPEN</code> — wide enough to slide over the largest object you'll lift. Around 30°.</li>
+    <li><code>JAWS_CLOSED</code> — gripping the object firmly. <em>Test before final code</em>: too tight and the servo strains; too loose and the object slips.</li>
+    <li><strong>Tip:</strong> if the servo buzzes when the jaws close, the angle is past the natural limit — back off by 5–10°.</li>
+  </ul>
+  <div class="code-block">
+    <div class="code-header"><span>JavaScript · pick &amp; place</span><button class="copy-btn">Copy</button></div>
+<pre><span class="tok-k">const</span> JAWS_OPEN   = <span class="tok-n">30</span>
+<span class="tok-k">const</span> JAWS_CLOSED = <span class="tok-n">110</span>   <span class="tok-c">// adjust per object</span>
+
+<span class="tok-fn">function</span> <span class="tok-fn">grip</span>()    { maqueen.<span class="tok-fn">servoRun</span>(maqueen.Servos.S1, JAWS_CLOSED); basic.<span class="tok-fn">pause</span>(<span class="tok-n">500</span>) }
+<span class="tok-fn">function</span> <span class="tok-fn">release</span>() { maqueen.<span class="tok-fn">servoRun</span>(maqueen.Servos.S1, JAWS_OPEN);   basic.<span class="tok-fn">pause</span>(<span class="tok-n">500</span>) }
+
+<span class="tok-c">// Approach object → grip → reverse → release</span>
+<span class="tok-fn">release</span>()
+maqueen.<span class="tok-fn">motorRun</span>(maqueen.Motors.All, maqueen.Dir.CW, <span class="tok-n">90</span>); basic.<span class="tok-fn">pause</span>(<span class="tok-n">800</span>)
+maqueen.<span class="tok-fn">motorStop</span>(maqueen.Motors.All)
+<span class="tok-fn">grip</span>()
+maqueen.<span class="tok-fn">motorRun</span>(maqueen.Motors.All, maqueen.Dir.CCW, <span class="tok-n">90</span>); basic.<span class="tok-fn">pause</span>(<span class="tok-n">800</span>)
+maqueen.<span class="tok-fn">motorStop</span>(maqueen.Motors.All)
+<span class="tok-fn">release</span>()</pre>
+  </div>
+  <p><strong>Activity ideas.</strong> Coloured-block sort into bins; cooperative hand-off between two Maqueens (one drops, one catches); object-rescue maze (fetch the cube from inside a pen); IR-remote-driven gripper for accessibility demonstrations; "blind grip" challenge — grip without using the front camera/sensor, only line markers, to teach proprioceptive control.</p>
+
+  <h3>🛻 Push (bulldozer) &mdash; <a href="https://wiki.dfrobot.com/rob0156-p/" target="_blank" rel="noopener">ROB0156-P</a> · <a href="https://github.com/May-DFRobot/DFRobot/blob/master/ROB0156-P-Tutorial%20of%20Maqueen%20Mechanic-Push-EN.pdf" target="_blank" rel="noopener">📄 Tutorial PDF</a></h3>
+
+  <div class="schematic">
+    <svg viewBox="0 0 600 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Push kit side view with rotating ultrasonic mount">
+      <text x="20" y="22" font-family="Cormorant Garamond, serif" font-size="15" fill="#1c2230" font-style="italic">Side view — passive blade in front, rotating sensor mount on top</text>
+
+      <rect x="120" y="160" width="200" height="22" rx="3" fill="#ebe1cf" stroke="#1c2230" stroke-width="0.9"/>
+      <circle cx="150" cy="190" r="14" fill="#1c2230" opacity="0.85"/>
+      <circle cx="290" cy="190" r="14" fill="#1c2230" opacity="0.85"/>
+
+      <rect x="320" y="135" width="14" height="50" rx="2" fill="#1c2230" stroke="#1c2230" stroke-width="0.7"/>
+
+      <rect x="200" y="115" width="20" height="20" rx="2" fill="#b8523a" stroke="#1c2230" stroke-width="0.7"/>
+      <text x="210" y="129" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="#fff">S</text>
+
+      <rect x="195" y="95" width="30" height="22" rx="3" fill="#2f6b6e" stroke="#1c2230" stroke-width="0.7"/>
+      <circle cx="203" cy="106" r="3.5" fill="#ebe1cf" stroke="#1c2230" stroke-width="0.5"/>
+      <circle cx="217" cy="106" r="3.5" fill="#ebe1cf" stroke="#1c2230" stroke-width="0.5"/>
+
+      <path d="M 130 95 A 80 80 0 0 1 290 95" fill="none" stroke="#b8523a" stroke-width="0.8" stroke-dasharray="4 3"/>
+      <polygon points="130,95 138,89 138,101" fill="#b8523a"/>
+      <polygon points="290,95 282,89 282,101" fill="#b8523a"/>
+      <text x="210" y="50" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#8e3d2a">10° → 170° sweep</text>
+      <text x="210" y="64" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#6b7280">→ active radar</text>
+
+      <line x1="210" y1="135" x2="510" y2="190" stroke="#1c2230" stroke-width="0.4" stroke-dasharray="2 2"/>
+      <text x="514" y="193" font-family="JetBrains Mono, monospace" font-size="10" fill="#b8523a">servo (S1) · drives sweep</text>
+
+      <line x1="210" y1="100" x2="510" y2="100" stroke="#1c2230" stroke-width="0.4" stroke-dasharray="2 2"/>
+      <text x="514" y="103" font-family="JetBrains Mono, monospace" font-size="10" fill="#2f6b6e">SR04 ultrasonic</text>
+
+      <line x1="328" y1="160" x2="510" y2="155" stroke="#1c2230" stroke-width="0.4" stroke-dasharray="2 2"/>
+      <text x="514" y="158" font-family="JetBrains Mono, monospace" font-size="10" fill="#1c2230">passive blade</text>
+
+      <line x1="220" y1="165" x2="510" y2="225" stroke="#1c2230" stroke-width="0.4" stroke-dasharray="2 2"/>
+      <text x="514" y="228" font-family="JetBrains Mono, monospace" font-size="10" fill="#6b7280">chassis</text>
+
+      <text x="50" y="230" font-family="JetBrains Mono, monospace" font-size="10" fill="#8e3d2a">●</text>
+      <text x="64" y="230" font-family="JetBrains Mono, monospace" font-size="10" fill="#1c2230">Servo drives the sensor mount, NOT a manipulator —</text>
+      <text x="64" y="244" font-family="JetBrains Mono, monospace" font-size="10" fill="#1c2230">unique among the four kits.</text>
+    </svg>
+    <div class="schematic-caption">Push profile · the only kit where the servo drives a sensor (teal) instead of a manipulator</div>
+  </div>
+
+  <h4>What's in the box</h4>
+  <p class="meta">DFRobot's official shipping list for <a href="https://www.dfrobot.com/product-2127.html" target="_blank" rel="noopener">ROB0156-P</a>:</p>
+  <ul class="refined">
+    <li>1 × 9 g Metal Gear Servo</li>
+    <li>1 × Metal Trolley Plate (the front blade — passive, bolts to the chassis front)</li>
+    <li>1 × Metal Pan-tilt-zoom Mount Plate (the rotating disc that carries the SR04, driven by the servo)</li>
+    <li>2 × M3 × 25 mm copper pillars</li>
+    <li>5 × M2.5 × 5 mm screws</li>
+    <li>10 × M3 × 5 mm screws</li>
+    <li>1 × 4-pin ultrasonic connecting wire (extends the SR04 cable up to the rotating mount)</li>
+    <li><em>Note: the SR04 sensor itself is sold separately for the Lite — purchase one if you don't already have it.</em></li>
+  </ul>
+
+  <h4>Assembly — step by step</h4>
+  <ol class="steps">
+    <li>Complete the <strong>pre-flight checklist</strong> (servo centred at 90°, power off).</li>
+    <li><strong>Bolt the front blade</strong> to the chassis front edge. Two M3 screws into the front-most pair of expansion holes. The blade is purely passive; no wires, no servo.</li>
+    <li><strong>Move to the top deck</strong>. Bolt the servo to its connection plate.</li>
+    <li><strong>Mount the connection plate to the chassis top deck</strong> through the rear pair of M3 expansion holes — the plate places the servo near the centre/back of the chassis with the spline pointing <em>upward</em>.</li>
+    <li><strong>Slide the rotating sensor-mount disc onto the servo spline</strong>. With the servo at 90°, the disc's mounting slot should face <em>forward</em>.</li>
+    <li><strong>Tighten the horn screw</strong> through the centre of the disc.</li>
+    <li><strong>Clip the SR04 ultrasonic sensor</strong> into the bracket on the disc. The two cylindrical "eyes" of the SR04 face outward; the four pins of the SR04 face inward.</li>
+    <li><strong>Plug the SR04 into the dedicated ultrasonic socket on the chassis front</strong> — <em>not</em> a servo port. The Maqueen Lite has a built-in 4-pin SR04 socket; <code>maqueen.Ultrasonic()</code> reads from it directly without further wiring.</li>
+    <li><strong>Connect the servo cable to S1</strong> (brown wire toward chassis edge). This drives the rotating mount only — the SR04 itself stays connected to its dedicated socket.</li>
+    <li><strong>Re-insert the micro:bit</strong>, batteries in, power on.</li>
+    <li><strong>Verify the three reference angles</strong>: <code>servoRun(S1, 90)</code> aims straight ahead; <code>servoRun(S1, 20)</code> aims hard left; <code>servoRun(S1, 160)</code> aims hard right. At each, take a quick distance reading <code>let d = maqueen.Ultrasonic()</code> with a wall ~30 cm away to confirm the sensor is alive in all positions.</li>
+  </ol>
+
+  <p><strong>Mechanism.</strong> The most distinctive of the four. Two parts:</p>
+  <ul class="refined">
+    <li><strong>A passive front blade</strong> — a vertical metal plate bolted directly to the front of the chassis. No servo. The blade pushes obstacles by virtue of the robot driving forward.</li>
+    <li><strong>A servo-driven rotating mount on the top deck</strong> — this is what S1 controls. The mount holds the HC-SR04 ultrasonic sensor and rotates it through 10°–170° to scan the environment.</li>
+  </ul>
+  <p>This is the <em>only</em> kit where the servo drives a sensor rather than a manipulator. The student question that surfaces here: "why give the sensor its own movement?" Answer: a single ultrasonic only sees what's in front of it; sweeping turns it into a primitive radar.</p>
+  <p><strong>What it teaches.</strong> Active sensing, polar coordinates (angle + distance = a point in 2D space), the difference between a snapshot and a sweep. With a phone or laptop receiving data over micro:bit radio, you can render a live polar plot — a real radar display.</p>
+  <p><strong>Calibration.</strong> Three reference angles:</p>
+  <ul class="refined">
+    <li><code>SCAN_LEFT</code> ≈ 20° (sensor pointing hard left)</li>
+    <li><code>SCAN_CENTRE</code> ≈ 90° (sensor straight ahead)</li>
+    <li><code>SCAN_RIGHT</code> ≈ 160° (sensor pointing hard right)</li>
+  </ul>
+  <div class="code-block">
+    <div class="code-header"><span>JavaScript · sweep scanner</span><button class="copy-btn">Copy</button></div>
+<pre><span class="tok-c">// Sweep the sensor and react to the closest direction</span>
+basic.<span class="tok-fn">forever</span>(<span class="tok-k">function</span> () {
+  <span class="tok-k">let</span> closest_dist  = <span class="tok-n">999</span>
+  <span class="tok-k">let</span> closest_angle = <span class="tok-n">90</span>
+  <span class="tok-k">for</span> (<span class="tok-k">let</span> a = <span class="tok-n">20</span>; a &lt;= <span class="tok-n">160</span>; a += <span class="tok-n">20</span>) {
+    maqueen.<span class="tok-fn">servoRun</span>(maqueen.Servos.S1, a)
+    basic.<span class="tok-fn">pause</span>(<span class="tok-n">120</span>)
+    <span class="tok-k">let</span> d = maqueen.<span class="tok-fn">Ultrasonic</span>()
+    <span class="tok-k">if</span> (d &gt; <span class="tok-n">0</span> &amp;&amp; d &lt; closest_dist) {
+      closest_dist  = d
+      closest_angle = a
+    }
+  }
+  <span class="tok-c">// React: turn toward the gap (away from closest obstacle)</span>
+  <span class="tok-k">if</span> (closest_angle &lt; <span class="tok-n">90</span>) {
+    maqueen.<span class="tok-fn">motorRun</span>(maqueen.Motors.M1, maqueen.Dir.CW,  <span class="tok-n">120</span>)
+    maqueen.<span class="tok-fn">motorRun</span>(maqueen.Motors.M2, maqueen.Dir.CCW, <span class="tok-n">120</span>)
+  } <span class="tok-k">else</span> {
+    maqueen.<span class="tok-fn">motorRun</span>(maqueen.Motors.M1, maqueen.Dir.CCW, <span class="tok-n">120</span>)
+    maqueen.<span class="tok-fn">motorRun</span>(maqueen.Motors.M2, maqueen.Dir.CW,  <span class="tok-n">120</span>)
+  }
+  basic.<span class="tok-fn">pause</span>(<span class="tok-n">300</span>)
+})</pre>
+  </div>
+  <p><strong>Activity ideas.</strong> Football pitch cleaner (line-tracked arena, push obstacles past the boundary); maze with active scanning instead of fixed-direction sensor; build a polar radar display in MakeCode Arcade or on a laptop receiving radio packets; sumo robot championship; "find the gap" navigation between two parallel walls.</p>
+
+  <div class="callout">
+    <div class="callout-label">Compatibility note</div>
+    <p>All four Mechanic kits are advertised for Maqueen 4.0 and later, including the current Lite. They also fit the Plus V2 and V3, which expose a third servo port (S3) — useful if you want to combine, e.g., a Mechanic gripper with a separate camera-pan servo on a Plus chassis.</p>
+  </div>
+
+  <p class="meta" style="margin-top:18px;">→ For programming activities that drive these kits — pick-and-place, line-following with a fork, sweep-and-detect with the Push — see the <strong>Robotique</strong> and <strong>Capteurs</strong> categories in <a href="https://abourdim.github.io/maqueen-activities/" target="_blank" rel="noopener">Guide Terrain</a>.</p>
+</section>
+
+<!-- 13 -->
+<section id="ai">
+  <div class="number">§ 13</div>
+  <h2>AI capabilities</h2>
+  <p>"AI on a Maqueen" sounds aspirational. In practice, it means three concrete things, all of which fit inside a normal classroom session.</p>
+  <h3>Onboard sound classification (v2 + CreateAI)</h3>
+  <p><a href="https://createai.microbit.org" target="_blank" rel="noopener">CreateAI</a> from the micro:bit Foundation lets students record sound samples (clapping, knocking, whistling), label them, and train a tiny model in the browser. The model exports as a MakeCode extension. The Maqueen then responds to specific sounds — "go" claps, "stop" whistles, etc. <strong>Requires micro:bit v2</strong> (microphone).</p>
+  <h3>Image classification (Teachable Machine + radio relay)</h3>
+  <p><a href="https://teachablemachine.withgoogle.com" target="_blank" rel="noopener">Google Teachable Machine</a> trains an image classifier in a browser. The classifier runs on a phone or laptop pointing at flashcards. The result is sent over micro:bit radio to a Maqueen which acts on the label. The robot itself doesn't see — but it reacts to vision. Perfect for "show the green card → robot turns left".</p>
+  <h3>Reinforcement learning (pure code, no extra hardware)</h3>
+  <p>Q-learning and bandit algorithms fit in a few hundred lines of JavaScript. The Maqueen explores a maze, gets a "reward" when the line sensors hit the goal pattern, updates a small Q-table stored in micro:bit RAM. No camera, no neural net — but every concept that matters in modern RL.</p>
+  <div class="callout">
+    <div class="callout-label">v1 vs v2 — the AI dividing line</div>
+    <p>If you plan any AI work, buy v2 micro:bits. The v1 has neither microphone nor sufficient RAM for the new MakeCode AI runtime. Mixed classrooms are fine for non-AI activities but painful for AI ones.</p>
+  </div>
+</section>
+
+<!-- 14 -->
+<section id="pitfalls">
+  <div class="number">§ 14</div>
+  <h2>Common pitfalls</h2>
+  <p>The ten things that go wrong in classrooms, in rough order of frequency:</p>
+  <ul class="refined">
+    <li><strong>Robot moves slower than yesterday</strong> → batteries are draining. Below ≈ 3.6 V the motor controller throttles. Swap cells; consider NiMH.</li>
+    <li><strong>Code uploaded but nothing happens</strong> → the power switch on the chassis is off. The micro:bit is powered by USB but the motors aren't.</li>
+    <li><strong>Front LEDs eat performance</strong> → at full brightness with both motors, the 4.5 V rail sags. Either dim, or accept slower top speed.</li>
+    <li><strong>RGB blocks not in MakeCode</strong> → you forgot to install the <code>neopixel</code> extension separately. The maqueen extension does <em>not</em> include it.</li>
+    <li><strong>Servo strips its gears</strong> → you commanded 0 or 180 with the arm assembled wrong. Always centre at 90 before mounting; respect 10–170.</li>
+    <li><strong>I²C address conflict</strong> → adding HuskyLens or another I²C device clashes with the motor driver at 0x10. Check addresses before stacking.</li>
+    <li><strong>Line sensors detect nothing on red surfaces</strong> → IR sensors see "black" by IR reflectance, not by visible colour. Test on actual paper before assuming colour=line.</li>
+    <li><strong>Ultrasonic returns 0 or weird values</strong> → no SR04 plugged in, or it's flipped. Trig and Echo orientations matter.</li>
+    <li><strong>Sound activities don't trigger</strong> → micro:bit v1, no microphone. Check the back of the micro:bit: v2 has the gold "MIC" pad and round speaker.</li>
+    <li><strong>"Cannot find maqueen extension"</strong> → cached MakeCode. Hard-refresh the browser (Ctrl+Shift+R), or clear site data.</li>
+  </ul>
+
+  <p class="meta" style="margin-top:18px;">→ <a href="https://abourdim.github.io/maqueen-activities/" target="_blank" rel="noopener">Guide Terrain</a> ships an interactive <strong>FAQ panel</strong> with the same problems and fixes, in FR / EN / AR — searchable from inside the activity guide.</p>
+</section>
+
+<!-- 15 -->
+<section id="resources">
+  <div class="number">§ 15</div>
+  <h2>Resources — every link worth bookmarking</h2>
+  <p>Curated, deduplicated, and (so far) all alive.</p>
+
+  <div class="res-grid">
+    <div class="res-section">
+      <h4>Hardware &amp; vendor</h4>
+      <ul>
+        <li><a href="https://www.dfrobot.com/product-1783.html" target="_blank" rel="noopener">Maqueen Lite product page</a><span class="res-desc">SKU ROB0148-EN · ≈ €30</span></li>
+        <li><a href="https://wiki.dfrobot.com/rob0148-en/" target="_blank" rel="noopener">Maqueen Lite Wiki / user guide</a><span class="res-desc">official docs, this guide's primary reference</span></li>
+        <li><a href="https://www.dfrobot.com/product-2026.html" target="_blank" rel="noopener">Maqueen Plus V2 product page</a><span class="res-desc">SKU MBT0021-EN · ≈ €50</span></li>
+        <li><a href="https://wiki.dfrobot.com/mbt0021-en/" target="_blank" rel="noopener">Maqueen Plus V2 Wiki / user guide</a></li>
+        <li><a href="https://www.dfrobot.com/product-2935.html" target="_blank" rel="noopener">Maqueen Plus V3 product page</a><span class="res-desc">SKU MBT0050 · ≈ €70 · laser ranging</span></li>
+        <li><a href="https://wiki.dfrobot.com/SKU_MBT0050_Maqueen_Plus_V3" target="_blank" rel="noopener">Maqueen Plus V3 Wiki / user guide</a></li>
+        <li><a href="https://wiki.dfrobot.com/topic-319/" target="_blank" rel="noopener">Whole Maqueen family overview</a><span class="res-desc">DFRobot's hub page</span></li>
+        <li><a href="https://www.dfrobot.com/product-2589.html" target="_blank" rel="noopener">Full kit bundle (Lite + v2 + Mechanic + GamePad)</a><span class="res-desc">classroom-ready package</span></li>
+        <li><a href="https://www.dfrobot.com/product-1922.html" target="_blank" rel="noopener">HuskyLens AI camera</a><span class="res-desc">stand-alone vision sensor</span></li>
+      </ul>
+    </div>
+
+    <div class="res-section">
+      <h4>Programming</h4>
+      <ul>
+        <li><a href="https://makecode.microbit.org" target="_blank" rel="noopener">MakeCode editor</a><span class="res-desc">browser, blocks + JS, no install</span></li>
+        <li><a href="https://python.microbit.org" target="_blank" rel="noopener">Python editor</a><span class="res-desc">browser, MicroPython</span></li>
+        <li><a href="https://mindplus.cc" target="_blank" rel="noopener">Mind+ (DFRobot)</a><span class="res-desc">desktop, Scratch + real-mode</span></li>
+        <li><a href="https://github.com/DFRobot/pxt-maqueen" target="_blank" rel="noopener">pxt-maqueen extension source</a><span class="res-desc">the MakeCode extension repo</span></li>
+      </ul>
+    </div>
+
+    <div class="res-section">
+      <h4>AI tools</h4>
+      <ul>
+        <li><a href="https://createai.microbit.org" target="_blank" rel="noopener">CreateAI (micro:bit Foundation)</a><span class="res-desc">train sound &amp; gesture models in-browser</span></li>
+        <li><a href="https://teachablemachine.withgoogle.com" target="_blank" rel="noopener">Google Teachable Machine</a><span class="res-desc">image / sound / pose classifiers</span></li>
+        <li><a href="https://microbit.org/get-started/user-guide/microbit-v2/" target="_blank" rel="noopener">micro:bit v2 features</a><span class="res-desc">why v2 matters for AI</span></li>
+      </ul>
+    </div>
+
+    <div class="res-section">
+      <h4>Mechanic kits</h4>
+      <ul>
+        <li><a href="https://github.com/DFRobot/Maqueen_Mechanic_instructions/blob/master/Maqueen%20Mechanic%20instructions.pdf" target="_blank" rel="noopener">Master assembly PDF (8.25 MB)</a><span class="res-desc">all four kits, image-based</span></li>
+        <li><a href="https://wiki.dfrobot.com/rob0156-f/" target="_blank" rel="noopener">Forklift wiki (ROB0156-F)</a></li>
+        <li><a href="https://wiki.dfrobot.com/rob0156-l/" target="_blank" rel="noopener">Loader wiki (ROB0156-L)</a></li>
+        <li><a href="https://wiki.dfrobot.com/ROB0156-B/" target="_blank" rel="noopener">Beetle wiki (ROB0156-B)</a></li>
+        <li><a href="https://wiki.dfrobot.com/rob0156-p/" target="_blank" rel="noopener">Push wiki (ROB0156-P)</a></li>
+        <li><a href="https://learn.dfrobot.com/makelog-308436.html" target="_blank" rel="noopener">All four — single-page tutorial</a><span class="res-desc">DFRobot community walkthrough</span></li>
+      </ul>
+    </div>
+
+    <div class="res-section">
+      <h4>Curriculum &amp; activity guides</h4>
+      <ul>
+        <li><a href="https://abourdim.github.io/maqueen-activities/" target="_blank" rel="noopener">Maqueen Lite · Guide Terrain</a><span class="res-desc">85 activities · FR / EN / AR · this repo</span></li>
+        <li><a href="https://github.com/abourdim/bit-54-activities" target="_blank" rel="noopener">bit-54-activities</a><span class="res-desc">sibling guide for the bare micro:bit</span></li>
+        <li><a href="https://github.com/abourdim/tools" target="_blank" rel="noopener">Workshop-DIY Toolkit</a><span class="res-desc">complementary maker resources</span></li>
+        <li><a href="https://learn.dfrobot.com/tag-661.html" target="_blank" rel="noopener">DFRobot Maqueen Mechanic tutorials</a><span class="res-desc">official lesson series</span></li>
+      </ul>
+    </div>
+
+    <div class="res-section">
+      <h4>Community</h4>
+      <ul>
+        <li><a href="https://www.dfrobot.com/forum/?c=785" target="_blank" rel="noopener">DFRobot Maqueen forum</a><span class="res-desc">Q&amp;A, troubleshooting</span></li>
+        <li><a href="https://forum.makecode.com" target="_blank" rel="noopener">MakeCode forum</a><span class="res-desc">general micro:bit programming</span></li>
+        <li><a href="https://microbit.org/teach/" target="_blank" rel="noopener">micro:bit Foundation — for teachers</a><span class="res-desc">lesson plans, schemes of work</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="credit">Maqueen Lite · <em>Reference</em> — the technical companion to <a href="https://abourdim.github.io/maqueen-activities/" target="_blank" rel="noopener">Guide Terrain</a>. Drafted to fill the gaps in DFRobot's own documentation.</span>
+  <span>v1.0 · MIT License · same author as the <a href="https://github.com/abourdim/maqueen-activities" target="_blank" rel="noopener">parent repo</a></span>
+</footer>
+
+</main>
+</div>
+
+<script>
+// Copy buttons
+document.querySelectorAll('.copy-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const pre = btn.closest('.code-block').querySelector('pre');
+    const text = pre.innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      const original = btn.textContent;
+      btn.textContent = 'Copied';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = original;
+        btn.classList.remove('copied');
+      }, 1400);
+    });
+  });
+});
+
+// Active TOC highlighting
+const sections = document.querySelectorAll('main section');
+const tocLinks = document.querySelectorAll('aside.toc a');
+const setActive = () => {
+  const y = window.scrollY + 100;
+  let active = null;
+  sections.forEach(s => { if (s.offsetTop <= y) active = s.id; });
+  tocLinks.forEach(a => {
+    a.style.color = a.getAttribute('href') === '#' + active ? 'var(--terra)' : '';
+    a.style.fontWeight = a.getAttribute('href') === '#' + active ? '600' : '';
+  });
+};
+window.addEventListener('scroll', setActive, { passive: true });
+setActive();
+</script>
+
+</body>
+</html>
