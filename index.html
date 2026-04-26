@@ -450,6 +450,79 @@ tbody td:nth-child(2) a {
 .guide-panel .guide-row .guide-links a + a { margin-left: 6px; }
 .guide-panel .guide-row .guide-links span { margin: 0 4px; opacity: 0.4; }
 
+/* Wiki-examples catalog (§ 11) */
+.wiki-cat {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  margin: 28px 0;
+}
+.wiki-row {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 18px;
+  background: var(--paper-deep);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--terra);
+  border-radius: 4px;
+  padding: 16px 18px;
+  align-items: start;
+}
+.wiki-row .wiki-num {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-size: 32px;
+  color: var(--terra);
+  line-height: 1;
+  padding-top: 4px;
+}
+.wiki-row .wiki-body { min-width: 0; }
+.wiki-row .wiki-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 20px;
+  color: var(--ink);
+  line-height: 1.25;
+  margin-bottom: 4px;
+}
+.wiki-row p {
+  font-size: 14.5px;
+  line-height: 1.55;
+  margin: 6px 0 10px;
+  color: var(--ink);
+  max-width: none;
+}
+.wiki-row .wiki-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 8px 0;
+}
+.wiki-row .wiki-tags span {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  background: rgba(47, 107, 110, 0.10);
+  color: var(--teal);
+  border: 1px solid rgba(47, 107, 110, 0.22);
+  padding: 2px 8px;
+  border-radius: 10px;
+  letter-spacing: 0.02em;
+}
+.wiki-row .wiki-links {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  margin-top: 6px;
+}
+.wiki-row .wiki-links a {
+  border-bottom: 1px dotted rgba(184, 82, 58, 0.4);
+}
+
+@media (max-width: 640px) {
+  .wiki-row { grid-template-columns: 48px 1fr; gap: 12px; padding: 14px; }
+  .wiki-row .wiki-num { font-size: 26px; }
+  .wiki-row .wiki-title { font-size: 17px; }
+}
+
 /* Schematic SVG container */
 .schematic {
   background: var(--paper-deep);
@@ -590,6 +663,7 @@ footer .credit em { color: var(--terra); font-style: normal; }
     <li><a href="#environments">Programming environments</a></li>
     <li><a href="#api">The maqueen API</a></li>
     <li><a href="#recipes">Code recipes</a></li>
+    <li><a href="#wiki-examples">The 16 official examples</a></li>
     <li><a href="#mechanic">Mechanic add-ons</a></li>
     <li><a href="#ai">AI capabilities</a></li>
     <li><a href="#pitfalls">Common pitfalls</a></li>
@@ -1174,8 +1248,194 @@ maqueen.motor_stop(maqueen.ALL)</pre>
 </section>
 
 <!-- 11 -->
-<section id="mechanic">
+<section id="wiki-examples">
   <div class="number">§ 11</div>
+  <h2>The 16 official examples — catalog</h2>
+  <p>The DFRobot wiki for ROB0148 ships with a canonical set of 16 walk-through examples — the official starting point for every Maqueen Lite. They progress from simple I/O (LED flash, motor control) through sensor reading (line, ultrasonic, IR) to coordinated behaviour (line-following, obstacle avoidance, light-following) and end with wireless control and a hardware self-identifier. This catalog summarises what each one teaches at the API level so you can find the right example for the capability you want to demonstrate.</p>
+
+  <div class="callout">
+    <div class="callout-label">Where to find the actual code</div>
+    <p>Two complementary sources, both linked per row below: <strong>(a)</strong> the original wiki page on dfrobot.com — canonical, with the original step-by-step text, wiring photos and downloadable .hex files; <strong>(b)</strong> <a href="https://abourdim.github.io/maqueen-activities/" target="_blank" rel="noopener">Guide Terrain</a> — the same 16 examples reproduced in FR / EN / AR with flowcharts, copy buttons, JavaScript + Python side-by-side, graduated challenges, and a "mark as done" checkbox. Look for the <strong>📘 Officiel</strong> category in Guide Terrain.</p>
+  </div>
+
+  <div class="wiki-cat">
+
+    <div class="wiki-row">
+      <div class="wiki-num">01</div>
+      <div class="wiki-body">
+        <div class="wiki-title">Getting started — calibration &amp; library import</div>
+        <p>Walks through calibrating the two line-tracking sensors (P13 / P14) for your printing-paper / black-tape combination, and importing the <code>maqueen</code> MakeCode extension. Read this before any of the others.</p>
+        <div class="wiki-tags"><span>setup</span><span>calibration</span></div>
+        <div class="wiki-links"><a href="https://wiki.dfrobot.com/rob0148-en/docs/22595" target="_blank" rel="noopener">Wiki</a> · <a href="https://abourdim.github.io/maqueen-activities/" target="_blank" rel="noopener">Guide Terrain</a></div>
+      </div>
+    </div>
+
+    <div class="wiki-row">
+      <div class="wiki-num">02</div>
+      <div class="wiki-body">
+        <div class="wiki-title">IR remote control — full driving</div>
+        <p>Covers the full driving-by-IR-remote workflow: forward, backward, left, right, stop. Reads the IR receiver on P16, dispatches motor commands. Note: there's a second IR-remote example (#9) with a different focus — this one (#2) is the from-scratch tutorial.</p>
+        <div class="wiki-tags"><span>P16 IR</span><span>motorRun</span><span>IR_Read</span></div>
+        <div class="wiki-links"><a href="https://wiki.dfrobot.com/rob0148-en-lb/docs/21449" target="_blank" rel="noopener">Wiki</a> · <a href="https://abourdim.github.io/maqueen-activities/" target="_blank" rel="noopener">Guide Terrain</a></div>
+      </div>
+    </div>
+
+    <div class="wiki-row">
+      <div class="wiki-num">03</div>
+      <div class="wiki-body">
+        <div class="wiki-title">Auto line-tracking — full tutorial</div>
+        <p>The complete line-following walk-through: hardware, MakeCode setup, sensor wiring, control logic. Uses both line sensors (<code>readPatrol</code> on PatrolLeft / PatrolRight) plus motor control. As with #2, there's a shorter second pass at this same idea (#12).</p>
+        <div class="wiki-tags"><span>P13 P14</span><span>readPatrol</span><span>motorRun</span></div>
+        <div class="wiki-links"><a href="https://wiki.dfrobot.com/rob0148-en-lb/docs/21447" target="_blank" rel="noopener">Wiki</a> · <a href="https://abourdim.github.io/maqueen-activities/" target="_blank" rel="noopener">Guide Terrain</a></div>
+      </div>
+    </div>
+
+    <div class="wiki-row">
+      <div class="wiki-num">04</div>
+      <div class="wiki-body">
+        <div class="wiki-title">Motor control</div>
+        <p>The fundamental motor demo. Drives both motors via the I²C 0x10 controller — forward, reverse, individual-side, all-stop. The pattern under every other moving-robot example.</p>
+        <div class="wiki-tags"><span>I²C 0x10</span><span>motorRun</span><span>motorStop</span></div>
+        <div class="wiki-links"><a href="https://wiki.dfrobot.com/rob0148-en/docs/20849" target="_blank" rel="noopener">Wiki</a> · <a href="https://abourdim.github.io/maqueen-activities/" target="_blank" rel="noopener">Guide Terrain</a></div>
+      </div>
+    </div>
+
+    <div class="wiki-row">
+      <div class="wiki-num">05</div>
+      <div class="wiki-body">
+        <div class="wiki-title">RGB breathing ambient light</div>
+        <p>Drives the four NeoPixel RGB LEDs on P15 in a smooth fade — the "breathing" effect. Requires the separate <code>neopixel</code> MakeCode extension (the <code>maqueen</code> extension does not include it).</p>
+        <div class="wiki-tags"><span>P15 NeoPixel</span><span>neopixel ext</span></div>
+        <div class="wiki-links"><a href="https://wiki.dfrobot.com/rob0148-en/docs/20848" target="_blank" rel="noopener">Wiki</a> · <a href="https://abourdim.github.io/maqueen-activities/" target="_blank" rel="noopener">Guide Terrain</a></div>
+      </div>
+    </div>
+
+    <div class="wiki-row">
+      <div class="wiki-num">06</div>
+      <div class="wiki-body">
+        <div class="wiki-title">Read ultrasonic distance</div>
+        <p>Polls the SR04 (or SR04P) at the front socket via <code>maqueen.Ultrasonic()</code>, displays the distance in centimetres on the micro:bit LED matrix. Foundation for #11.</p>
+        <div class="wiki-tags"><span>SR04 socket</span><span>Ultrasonic()</span></div>
+        <div class="wiki-links"><a href="https://wiki.dfrobot.com/rob0148-en/docs/20846" target="_blank" rel="noopener">Wiki</a> · <a href="https://abourdim.github.io/maqueen-activities/" target="_blank" rel="noopener">Guide Terrain</a></div>
+      </div>
+    </div>
+
+    <div class="wiki-row">
+      <div class="wiki-num">07</div>
+      <div class="wiki-body">
+        <div class="wiki-title">LED light flash</div>
+        <p>Toggles the two front white headlamp LEDs (<code>LEDLeft</code> on P8, <code>LEDRight</code> on P12). The simplest possible "hardware works" demo — usually the first thing teachers run after upload to confirm the cable is good.</p>
+        <div class="wiki-tags"><span>P8 P12</span><span>writeLED</span></div>
+        <div class="wiki-links"><a href="https://wiki.dfrobot.com/rob0148-en/docs/20847" target="_blank" rel="noopener">Wiki</a> · <a href="https://abourdim.github.io/maqueen-activities/" target="_blank" rel="noopener">Guide Terrain</a></div>
+      </div>
+    </div>
+
+    <div class="wiki-row">
+      <div class="wiki-num">08</div>
+      <div class="wiki-body">
+        <div class="wiki-title">Read infrared key codes</div>
+        <p>Press a button on the IR remote, the matching numeric key code appears on the micro:bit LED matrix (last two decimal digits). The discovery exercise that lets students build their own key-to-action mapping for use in #9 and #2.</p>
+        <div class="wiki-tags"><span>P16 IR</span><span>IR_Read</span><span>showNumber</span></div>
+        <div class="wiki-links"><a href="https://wiki.dfrobot.com/rob0148-en/docs/20845" target="_blank" rel="noopener">Wiki</a> · <a href="https://abourdim.github.io/maqueen-activities/" target="_blank" rel="noopener">Guide Terrain</a></div>
+      </div>
+    </div>
+
+    <div class="wiki-row">
+      <div class="wiki-num">09</div>
+      <div class="wiki-body">
+        <div class="wiki-title">IR remote — drive Maqueen</div>
+        <p>Uses keys 2 / 8 / 4 / 6 / 5 (a "directional pad" layout on the standard remote) to drive: forward / backward / left / right / stop. Builds on the key codes discovered in #8.</p>
+        <div class="wiki-tags"><span>P16 IR</span><span>IR_Read</span><span>motorRun</span></div>
+        <div class="wiki-links"><a href="https://wiki.dfrobot.com/rob0148-en/docs/20844" target="_blank" rel="noopener">Wiki</a> · <a href="https://abourdim.github.io/maqueen-activities/" target="_blank" rel="noopener">Guide Terrain</a></div>
+      </div>
+    </div>
+
+    <div class="wiki-row">
+      <div class="wiki-num">10</div>
+      <div class="wiki-body">
+        <div class="wiki-title">Read line-tracking sensor</div>
+        <p>Inspect the raw output of one line sensor: 0 means "on black", 1 means "on white" (or vice versa, depending on calibration). Displays the value on the LED matrix. The sensor-only counterpart to #3 / #12.</p>
+        <div class="wiki-tags"><span>P13 P14</span><span>readPatrol</span></div>
+        <div class="wiki-links"><a href="https://wiki.dfrobot.com/rob0148-en/docs/20843" target="_blank" rel="noopener">Wiki</a> · <a href="https://abourdim.github.io/maqueen-activities/" target="_blank" rel="noopener">Guide Terrain</a></div>
+      </div>
+    </div>
+
+    <div class="wiki-row">
+      <div class="wiki-num">11</div>
+      <div class="wiki-body">
+        <div class="wiki-title">Ultrasonic obstacle-avoidance</div>
+        <p>Continuous distance sweep; below 30 cm the robot picks left or right at random and turns. Combines #4 (motors) + #6 (ultrasonic) into the canonical "self-driving Maqueen" demo.</p>
+        <div class="wiki-tags"><span>SR04</span><span>Ultrasonic()</span><span>motorRun</span><span>random</span></div>
+        <div class="wiki-links"><a href="https://wiki.dfrobot.com/rob0148-en/docs/20841" target="_blank" rel="noopener">Wiki</a> · <a href="https://abourdim.github.io/maqueen-activities/" target="_blank" rel="noopener">Guide Terrain</a></div>
+      </div>
+    </div>
+
+    <div class="wiki-row">
+      <div class="wiki-num">12</div>
+      <div class="wiki-body">
+        <div class="wiki-title">Line-tracking</div>
+        <p>The compact second pass at line following — drives along a black line on the official map (or any black tape on a white surface). Less pedagogical wiring detail than #3, more "drop-in working code".</p>
+        <div class="wiki-tags"><span>P13 P14</span><span>readPatrol</span><span>motorRun</span></div>
+        <div class="wiki-links"><a href="https://wiki.dfrobot.com/rob0148-en/docs/20842" target="_blank" rel="noopener">Wiki</a> · <a href="https://abourdim.github.io/maqueen-activities/" target="_blank" rel="noopener">Guide Terrain</a></div>
+      </div>
+    </div>
+
+    <div class="wiki-row">
+      <div class="wiki-num">13</div>
+      <div class="wiki-body">
+        <div class="wiki-title">Light-operated sprite (light-following)</div>
+        <p>Uses the micro:bit's built-in light sensor (the LED matrix doubles as a photodiode array). Brighter light → faster motors. A flashlight beam aimed at the LEDs makes the robot accelerate. No extra hardware.</p>
+        <div class="wiki-tags"><span>input.lightLevel</span><span>motorRun</span></div>
+        <div class="wiki-links"><a href="https://wiki.dfrobot.com/rob0148-en/docs/20840" target="_blank" rel="noopener">Wiki</a> · <a href="https://abourdim.github.io/maqueen-activities/" target="_blank" rel="noopener">Guide Terrain</a></div>
+      </div>
+    </div>
+
+    <div class="wiki-row">
+      <div class="wiki-num">14</div>
+      <div class="wiki-body">
+        <div class="wiki-title">Wireless remote — micro:bit GamePad</div>
+        <p>Uses a second micro:bit (mounted in the optional GamePad accessory) as a controller. Both micro:bits join the same radio group; button presses on the gamepad transmit codes the Maqueen interprets as motion. The standard wireless-control pattern.</p>
+        <div class="wiki-tags"><span>radio</span><span>second micro:bit</span><span>GamePad</span></div>
+        <div class="wiki-links"><a href="https://wiki.dfrobot.com/rob0148-en/docs/20839" target="_blank" rel="noopener">Wiki</a> · <a href="https://abourdim.github.io/maqueen-activities/" target="_blank" rel="noopener">Guide Terrain</a></div>
+      </div>
+    </div>
+
+    <div class="wiki-row">
+      <div class="wiki-num">15</div>
+      <div class="wiki-body">
+        <div class="wiki-title">Driving servo</div>
+        <p>Sweeps the S1 servo from 0° to 150° repeatedly. The minimum-viable servo demo, ready to expand into any Mechanic kit's animation. Centre at 90 before mounting moving parts (see § 12 — Mechanic).</p>
+        <div class="wiki-tags"><span>P1 / P2</span><span>servoRun</span></div>
+        <div class="wiki-links"><a href="https://wiki.dfrobot.com/rob0148-en/docs/20838" target="_blank" rel="noopener">Wiki</a> · <a href="https://abourdim.github.io/maqueen-activities/" target="_blank" rel="noopener">Guide Terrain</a></div>
+      </div>
+    </div>
+
+    <div class="wiki-row">
+      <div class="wiki-num">16</div>
+      <div class="wiki-body">
+        <div class="wiki-title">Get product information</div>
+        <p>Calls the on-board <code>getVersion()</code>-style hook and shows the firmware locale tag on the LED matrix: ROB0148-EN (English), ROB0148-CN (Simplified Chinese), ROB0148-TW (Traditional Chinese), ROB0148-KR (Korean), ROB148-JP (Japanese). Useful as a "is this the right firmware" sanity check.</p>
+        <div class="wiki-tags"><span>diagnostic</span><span>showString</span></div>
+        <div class="wiki-links"><a href="https://wiki.dfrobot.com/rob0148-en/docs/20837" target="_blank" rel="noopener">Wiki</a> · <a href="https://abourdim.github.io/maqueen-activities/" target="_blank" rel="noopener">Guide Terrain</a></div>
+      </div>
+    </div>
+
+  </div>
+
+  <h3>Reading order — what to teach when</h3>
+  <p>The wiki lists the examples in catalog order, not pedagogical order. A pragmatic teaching sequence:</p>
+  <ol class="steps">
+    <li><strong>Setup &amp; smoke test:</strong> #1 (calibration) → #7 (LED flash) → #16 (get product info). At the end of this trio the student has confirmed the upload pipeline, the chassis power, and the firmware identity.</li>
+    <li><strong>Single-component reads:</strong> #10 (line sensor raw) → #6 (ultrasonic raw) → #8 (IR key codes) → #13 (light level). One sensor at a time, value displayed on the matrix. Builds intuition for what "reading a sensor" actually means.</li>
+    <li><strong>Single-component drives:</strong> #4 (motors) → #15 (servo) → #5 (RGB ambient). One actuator at a time.</li>
+    <li><strong>Combined behaviours:</strong> #11 (ultrasonic obstacle avoidance) → #3 / #12 (line following) → #2 / #9 (IR-driven Maqueen) → #14 (wireless GamePad).</li>
+  </ol>
+  <p class="meta" style="margin-top:18px;">→ <a href="https://abourdim.github.io/maqueen-activities/" target="_blank" rel="noopener">Guide Terrain</a> wraps each of the 16 examples in lesson scaffolding (objective, materials, numbered steps, teaching tip, flowchart, pseudo-code, JS + Python, graduated challenges, mark-as-done). It also adds 70 creative extensions on top — categorised under Mouvement, LEDs &amp; Son, Capteurs, Interactivité, Robotique, Défis and IA.</p>
+</section>
+
+<!-- 12 -->
+<section id="mechanic">
+  <div class="number">§ 12</div>
   <h2>Mechanic add-ons — full feature reference</h2>
   <p>Each kit is a metal-gear servo plus a mechanical assembly that bolts onto the standard expansion holes on the top deck. Wire the servo to S1 (or S2), code the angle, watch the thing move. Below: shared specs, three universal rules, and a full profile for each of the four kits — what it does, how it moves, how to drive it, and what to teach with it.</p>
 
@@ -1878,9 +2138,9 @@ basic.<span class="tok-fn">forever</span>(<span class="tok-k">function</span> ()
   <p class="meta" style="margin-top:18px;">→ For programming activities that drive these kits — pick-and-place, line-following with a fork, sweep-and-detect with the Push — see the <strong>Robotique</strong> and <strong>Capteurs</strong> categories in <a href="https://abourdim.github.io/maqueen-activities/" target="_blank" rel="noopener">Guide Terrain</a>.</p>
 </section>
 
-<!-- 12 -->
+<!-- 13 -->
 <section id="ai">
-  <div class="number">§ 12</div>
+  <div class="number">§ 13</div>
   <h2>AI capabilities</h2>
   <p>"AI on a Maqueen" sounds aspirational. In practice, it means three concrete things, all of which fit inside a normal classroom session.</p>
   <h3>Onboard sound classification (v2 + CreateAI)</h3>
@@ -1895,9 +2155,9 @@ basic.<span class="tok-fn">forever</span>(<span class="tok-k">function</span> ()
   </div>
 </section>
 
-<!-- 13 -->
+<!-- 14 -->
 <section id="pitfalls">
-  <div class="number">§ 13</div>
+  <div class="number">§ 14</div>
   <h2>Common pitfalls</h2>
   <p>The ten things that go wrong in classrooms, in rough order of frequency:</p>
   <ul class="refined">
@@ -1916,9 +2176,9 @@ basic.<span class="tok-fn">forever</span>(<span class="tok-k">function</span> ()
   <p class="meta" style="margin-top:18px;">→ <a href="https://abourdim.github.io/maqueen-activities/" target="_blank" rel="noopener">Guide Terrain</a> ships an interactive <strong>FAQ panel</strong> with the same problems and fixes, in FR / EN / AR — searchable from inside the activity guide.</p>
 </section>
 
-<!-- 14 -->
+<!-- 15 -->
 <section id="resources">
-  <div class="number">§ 14</div>
+  <div class="number">§ 15</div>
   <h2>Resources — every link worth bookmarking</h2>
   <p>Curated, deduplicated, and (so far) all alive.</p>
 
